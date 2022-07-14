@@ -1,0 +1,13 @@
+.row {
+  margin: 20px 20px;
+  .meeting-form {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+  .input-field {
+    width: 18rem;
+    margin: 0 20px;
+    display: inline-block;
+  }
+}

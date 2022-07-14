@@ -1,0 +1,37 @@
+.logo {
+  margin: 0 -10px;
+  padding-left: 20px;
+}
+.ms-auto {
+  .anchor {
+    color: rgb(168, 158, 158);
+    text-decoration: none;
+    float: right;
+    margin-right: 0;
+    padding: 12px;
+    &:link {
+      color: white;
+    }
+    &:visited {
+      color: white;
+    }
+    &:hover {
+      color: red;
+    }
+    &:focus {
+      text-decoration: underline 2px;
+      color: cyan;
+    }
+    &:active {
+      color: yellow;
+    }
+  }
+}
+// @media only screen and (max-width: 400px) {
+//   .ms-auto a {
+//     align-items: center;
+//     align-self: center;
+//     align-content: center;
+//     text-align: center;
+//   }
+// }
