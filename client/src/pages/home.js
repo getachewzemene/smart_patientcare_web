@@ -1,8 +1,8 @@
-import Carousel from "../carousel/carousel";
-import CardList from "../card_list/cardList";
+import Carousel from "../components/carousel/carousel";
+import CardList from "../components/card_list/cardList";
 import "./home.scss";
-import NavBar from "../navbar/navbar";
-import Footer from "../footer/footer";
+import NavBar from "../components/navbar/navbar";
+import Footer from "../components/footer/footer";
 const home = () => {
   return (
     <>
