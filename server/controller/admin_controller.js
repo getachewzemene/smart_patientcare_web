@@ -1,5 +1,5 @@
 const db = require("../models");
-createAdmin = async (req, res) => {
+const createAdmin = async (req, res) => {
   const { id, firstName, lastName, email, password, phone } = req.body;
 
   try {
@@ -19,8 +19,7 @@ createAdmin = async (req, res) => {
     res.status(400).send(err);
   }
 };
-addDoctor = async (req, res) => {
-  console.log(req.body);
+const addDoctor = async (req, res) => {
   const {
     id,
     firstName,
@@ -64,4 +63,44 @@ addDoctor = async (req, res) => {
     res.status(400).send(error);
   }
 };
-module.exports = { createAdmin, addDoctor };
+const addDisease = async (req, res) => {
+  const { id, diseaseName, category, precuation, symptom } = req.body;
+  try {
+    const diseaseModel = await db.Disease.create({
+      id: id,
+      diseaseName: diseaseName,
+      category: category,
+      precuation: precuation,
+    });
+    const symptomModel = await db.Symptom.bulkCreate(symptom);
+    if (diseaseModel && symptomModel)
+      await diseaseModel.addSymptom(symptomModel);
+    res.status(200).send({
+      message: "disease table created success",
+      data: JSON.stringify(diseaseModel),
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+};
+const createSchedule = async (req, res) => {
+  const { id, workingDays, startTime, endTime, doctorId } = req.body;
+
+  try {
+    const scheduleModel = await db.Schedule.create({
+      id: id,
+      workingDays: workingDays,
+      startTime: startTime,
+      endTime: endTime,
+      doctorId: doctorId,
+    });
+    res.status(200).send({
+      message: "Doctor Schedule created Success",
+      data: scheduleModel,
+    });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+module.exports = { createAdmin, addDoctor, addDisease, createSchedule };

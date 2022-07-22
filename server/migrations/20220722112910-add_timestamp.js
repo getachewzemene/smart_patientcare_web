@@ -67,11 +67,11 @@ module.exports = {
             primaryKey: true,
             allowNull: false,
           },
-          name: {
+          diseaseName: {
             type: Sequelize.DataTypes.STRING,
             allowNull: false,
           },
-          catagory: {
+          category: {
             type: Sequelize.DataTypes.STRING,
             allowNull: false,
           },
@@ -109,7 +109,7 @@ module.exports = {
             primaryKey: true,
             allowNull: false,
           },
-          name: {
+          symptomName: {
             type: Sequelize.DataTypes.STRING,
             allowNull: false,
           },
@@ -143,12 +143,12 @@ module.exports = {
         "diseaseSymptom",
         {
           id: {
-            type: Sequelize.DataTypes.STRING,
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
             primaryKey: true,
-            allowNull: false,
           },
           diseaseId: {
-            type: Sequelize.DataTypes.STRING,
+            type: DataTypes.STRING,
             allowNull: true,
             references: {
               model: "disease",
@@ -166,6 +166,21 @@ module.exports = {
             },
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
+          },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (user, options, fn) {
+              user.createdAt = new Date();
+              user.updatedAt = new Date();
+              fn(null, user);
+            },
+            beforeUpdate: function (user, options, fn) {
+              user.updatedAt = new Date();
+              fn(null, user);
+            },
           },
         },
         {
@@ -300,11 +315,11 @@ module.exports = {
             allowNull: false,
           },
           startTime: {
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull: false,
           },
           endTime: {
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull: false,
           },
           doctorId: {

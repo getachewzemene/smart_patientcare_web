@@ -18,14 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       startTime: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       endTime: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      phone: {
         type: DataTypes.STRING,
         allowNull: false,
       },

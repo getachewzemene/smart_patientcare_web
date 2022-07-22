@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
+      address: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
       role: {
         type: DataTypes.STRING,
         defaultValue: "geust",

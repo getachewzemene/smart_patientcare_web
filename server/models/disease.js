@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
   class Disease extends Model {
     static associate(models) {
       this.belongsToMany(models.Symptom, {
-        through: "diseaseSymptom",
+        through: models.DiseaseSymptom,
+        as: "symptom",
       });
     }
   }
@@ -15,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      name: {
+      diseaseName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      catagory: {
+      category: {
         type: DataTypes.STRING,
         allowNull: false,
       },

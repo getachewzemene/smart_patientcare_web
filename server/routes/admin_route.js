@@ -1,7 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controller/admin_controller");
+const diseaseController = require("../controller/disease_controller");
 router.post("/create", controller.createAdmin);
 // router.get("/socket-api/get-call-id/:id", controller.getCallId);
-router.post("/add_doctor", controller.addDoctor);
+router.post("/add-doctor", controller.addDoctor);
+router.post("/add-disease", controller.addDisease);
+router.post("/create-schedule", controller.createSchedule);
+// router.get('/doctors');
+// router.get('/patients');
+// router.get('/appointments');
+router.get("/disease", diseaseController.getAllDisease);
 module.exports = router;
