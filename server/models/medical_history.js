@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       MedicalHistory.belongsTo(models.Prescription, {
         foreignKey: "prescriptionId",
+        as: "prescription",
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       });
@@ -67,18 +68,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
-      },
-      createdAt: {
-        type: "TIMESTAMP",
-        defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-        allowNull: false,
-      },
-      updatedAt: {
-        type: "TIMESTAMP",
-        defaultValue: sequelize.literal(
-          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-        ),
-        allowNull: false,
       },
     },
 

@@ -18,6 +18,12 @@ module.exports = (sequelize, DataTypes) => {
       Patient.hasOne(models.Rating, {
         foreignKey: "patientId",
       });
+      Patient.belongsTo(models.User, {
+        foreignKey: "userId",
+        as: "patient",
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      });
     }
   }
   Patient.init(
@@ -27,62 +33,22 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      phone: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      gender: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      DOB: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
       weight: {
         type: DataTypes.DOUBLE,
-        allowNull: false,
-      },
-      role: {
-        type: DataTypes.STRING,
-        defaultValue: "guest",
         allowNull: false,
       },
       bloodGroup: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      address: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
-      createdAt: {
-        type: "TIMESTAMP",
-        defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-        allowNull: false,
-      },
-      updatedAt: {
-        type: "TIMESTAMP",
-        defaultValue: sequelize.literal(
-          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-        ),
-        allowNull: false,
+      userId: {
+        type: DataTypes.STRING,
+        references: {
+          model: "user",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
     },
 

@@ -1,4 +1,5 @@
 // "use strict";
+const { DATE } = require("sequelize");
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Admin extends Model {}
@@ -34,23 +35,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "admin",
         allowNull: false,
       },
-      createdAt: {
-        type: "TIMESTAMP",
-        defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-        allowNull: false,
-      },
-      updatedAt: {
-        type: "TIMESTAMP",
-        defaultValue: sequelize.literal(
-          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-        ),
-        allowNull: false,
-      },
     },
-
     {
       sequelize,
       tableName: "admin",
+      timestamps: true,
       freezeTableName: true,
     }
   );

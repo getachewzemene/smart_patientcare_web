@@ -18,6 +18,7 @@ import {
   faHome,
   faDisease,
   faUserCheck,
+  faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
 import "./DoctorPage.scss";
 const DoctorPage = () => {
@@ -55,23 +56,29 @@ const DoctorPage = () => {
           </Offcanvas.Header>
           <hr></hr>
           <Offcanvas.Body className="bg-light">
-            <Nav.Link href="/" className="h4">
+            <Nav.Link href="/" className="h5">
               <i className="fa-1x mx-2">
                 <FontAwesomeIcon icon={faHome} />
               </i>
               Home
             </Nav.Link>
-            <Nav.Link href="#" className="h4">
+            <Nav.Link href="#" className="h5">
               <i className="fa-1x mx-2">
                 <FontAwesomeIcon icon={faUserCheck} />
               </i>
               Appointments
             </Nav.Link>
-            <Nav.Link href="#" className="h4">
+            <Nav.Link href="#" className="h5">
               <i className="fa-1x mx-2">
                 <FontAwesomeIcon icon={faDisease} />
               </i>
               Check Disease
+            </Nav.Link>
+            <Nav.Link href="#" className="h5 mt-5">
+              <i className="fa-1x mx-2">
+                <FontAwesomeIcon icon={faSignOut} />
+              </i>
+              Logout
             </Nav.Link>
           </Offcanvas.Body>
         </Navbar.Offcanvas>

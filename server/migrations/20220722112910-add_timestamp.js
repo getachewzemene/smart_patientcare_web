@@ -37,6 +37,21 @@ module.exports = {
             defaultValue: "admin",
             allowNull: false,
           },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (admin, options, fn) {
+              admin.createdAt = new Date();
+              admin.updatedAt = new Date();
+              fn(null, admin);
+            },
+            beforeUpdate: function (admin, options, fn) {
+              admin.updatedAt = new Date();
+              fn(null, admin);
+            },
+          },
         },
         {
           freezeTableName: true,
@@ -64,6 +79,21 @@ module.exports = {
             type: Sequelize.DataTypes.TEXT,
             allowNull: false,
           },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (disease, options, fn) {
+              disease.createdAt = new Date();
+              disease.updatedAt = new Date();
+              fn(null, disease);
+            },
+            beforeUpdate: function (disease, options, fn) {
+              disease.updatedAt = new Date();
+              fn(null, disease);
+            },
+          },
         },
         {
           freezeTableName: true,
@@ -86,6 +116,21 @@ module.exports = {
           description: {
             type: Sequelize.DataTypes.TEXT,
             allowNull: false,
+          },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (symptom, options, fn) {
+              symptom.createdAt = new Date();
+              symptom.updatedAt = new Date();
+              fn(null, symptom);
+            },
+            beforeUpdate: function (symptom, options, fn) {
+              symptom.updatedAt = new Date();
+              fn(null, symptom);
+            },
           },
         },
         {
@@ -121,6 +166,21 @@ module.exports = {
             },
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
+          },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (diseaseSymptom, options, fn) {
+              diseaseSymptom.createdAt = new Date();
+              diseaseSymptom.updatedAt = new Date();
+              fn(null, diseaseSymptom);
+            },
+            beforeUpdate: function (diseaseSymptom, options, fn) {
+              diseaseSymptom.updatedAt = new Date();
+              fn(null, diseaseSymptom);
+            },
           },
         },
         {
@@ -174,6 +234,21 @@ module.exports = {
             defaultValue: "geust",
             allowNull: false,
           },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (user, options, fn) {
+              user.createdAt = new Date();
+              user.updatedAt = new Date();
+              fn(null, user);
+            },
+            beforeUpdate: function (user, options, fn) {
+              user.updatedAt = new Date();
+              fn(null, user);
+            },
+          },
         },
         {
           freezeTableName: true,
@@ -205,6 +280,21 @@ module.exports = {
             },
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
+          },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (doctor, options, fn) {
+              doctor.createdAt = new Date();
+              doctor.updatedAt = new Date();
+              fn(null, doctor);
+            },
+            beforeUpdate: function (doctor, options, fn) {
+              doctor.updatedAt = new Date();
+              fn(null, doctor);
+            },
           },
         },
         {
@@ -247,6 +337,21 @@ module.exports = {
             onDelete: "CASCADE",
             onUpdate: "CASCADE",
           },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (schedule, options, fn) {
+              schedule.createdAt = new Date();
+              schedule.updatedAt = new Date();
+              fn(null, schedule);
+            },
+            beforeUpdate: function (schedule, options, fn) {
+              schedule.updatedAt = new Date();
+              fn(null, schedule);
+            },
+          },
         },
         {
           freezeTableName: true,
@@ -280,6 +385,21 @@ module.exports = {
             onUpdate: "CASCADE",
 
             onDelete: "CASCADE",
+          },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (patient, options, fn) {
+              patient.createdAt = new Date();
+              patient.updatedAt = new Date();
+              fn(null, patient);
+            },
+            beforeUpdate: function (patient, options, fn) {
+              patient.updatedAt = new Date();
+              fn(null, patient);
+            },
           },
         },
         {
@@ -326,6 +446,21 @@ module.exports = {
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
           },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (appointment, options, fn) {
+              appointment.createdAt = new Date();
+              appointment.updatedAt = new Date();
+              fn(null, appointment);
+            },
+            beforeUpdate: function (appointment, options, fn) {
+              appointment.updatedAt = new Date();
+              fn(null, appointment);
+            },
+          },
         },
         {
           freezeTableName: true,
@@ -364,6 +499,21 @@ module.exports = {
             },
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
+          },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (meeting, options, fn) {
+              meeting.createdAt = new Date();
+              meeting.updatedAt = new Date();
+              fn(null, meeting);
+            },
+            beforeUpdate: function (meeting, options, fn) {
+              meeting.updatedAt = new Date();
+              fn(null, meeting);
+            },
           },
         },
         {
@@ -408,6 +558,21 @@ module.exports = {
             },
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
+          },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (prescription, options, fn) {
+              prescription.createdAt = new Date();
+              prescription.updatedAt = new Date();
+              fn(null, prescription);
+            },
+            beforeUpdate: function (prescription, options, fn) {
+              prescription.updatedAt = new Date();
+              fn(null, prescription);
+            },
           },
         },
         {
@@ -463,6 +628,21 @@ module.exports = {
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
           },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (medicalHistory, options, fn) {
+              medicalHistory.createdAt = new Date();
+              medicalHistory.updatedAt = new Date();
+              fn(null, medicalHistory);
+            },
+            beforeUpdate: function (medicalHistory, options, fn) {
+              medicalHistory.updatedAt = new Date();
+              fn(null, medicalHistory);
+            },
+          },
         },
         {
           freezeTableName: true,
@@ -499,6 +679,21 @@ module.exports = {
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
           },
+          updatedAt: DataTypes.DATE,
+          createdAt: DataTypes.DATE,
+        },
+        {
+          hooks: {
+            beforeCreate: function (rating, options, fn) {
+              rating.createdAt = new Date();
+              rating.updatedAt = new Date();
+              fn(null, rating);
+            },
+            beforeUpdate: function (rating, options, fn) {
+              rating.updatedAt = new Date();
+              fn(null, rating);
+            },
+          },
         },
         {
           freezeTableName: true,
@@ -515,6 +710,8 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
+    // await queryInterface.removeColumn("admin", "createdAt");
+    // await queryInterface.removeColumn("admin", "updatedAt");
     await queryInterface.dropTable("admin");
     await queryInterface.dropTable("diseaseSymptom");
     await queryInterface.dropTable("symptom");
