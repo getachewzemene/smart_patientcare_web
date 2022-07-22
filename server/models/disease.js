@@ -2,10 +2,8 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Disease extends Model {
-    static associations(models) {
-      Disease.belongsToMany(models.Symptom, {
-        foreignKey: "diseaseId",
-        as: "symptoms",
+    static associate(models) {
+      this.belongsToMany(models.Symptom, {
         through: "diseaseSymptom",
       });
     }

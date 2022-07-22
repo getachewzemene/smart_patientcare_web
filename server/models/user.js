@@ -2,12 +2,11 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    static associations(models) {
-      User.hasOne(models.Doctor, {
+    static associate(models) {
+      this.hasOne(models.Doctor, { foreignKey: "userId", as: "doctor" });
+      this.hasOne(models.Patient, {
         foreignKey: "userId",
-      });
-      User.hasOne(models.Patient, {
-        foreignKey: "userId",
+        as: "user",
       });
     }
   }
@@ -45,10 +44,6 @@ module.exports = (sequelize, DataTypes) => {
       DOB: {
         type: DataTypes.DATE,
         allowNull: false,
-      },
-      address: {
-        type: DataTypes.TEXT,
-        allowNull: true,
       },
       role: {
         type: DataTypes.STRING,

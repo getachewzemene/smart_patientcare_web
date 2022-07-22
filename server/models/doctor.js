@@ -2,31 +2,32 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Doctor extends Model {
-    static associations(models) {
-      Doctor.hasMany(models.Appointment, {
+    static associate(models) {
+      this.hasMany(models.Appointment, {
         foreignKey: "doctorId",
+        as: "doctorAppointment",
       });
-      Doctor.hasMany(models.Schedule, {
+      this.hasMany(models.Schedule, {
         foreignKey: "doctorId",
+        as: "doctorSchedule",
       });
-      Doctor.hasMany(models.Prescription, {
+      this.hasMany(models.Prescription, {
         foreignKey: "doctorId",
+        as: "doctorPrescription",
       });
-      Doctor.hasMany(models.MedicalHistory, {
+      this.hasMany(models.MedicalHistory, {
         foreignKey: "doctorId",
+        as: "doctorMedicalHistory",
       });
-      Doctor.hasOne(models.Meeting, {
+      this.hasOne(models.Meeting, {
         foreignKey: "doctorId",
+        as: "doctorMeeting",
       });
-      Doctor.hasMany(models.Rating, {
+      this.hasMany(models.Rating, {
         foreignKey: "doctorId",
+        as: "doctorRating",
       });
-      Doctor.belongsTo(models.User, {
-        foreignKey: "userId",
-        as: "doctor",
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      });
+      // this.belongsTo(models.User);
     }
   }
   Doctor.init(
@@ -43,15 +44,6 @@ module.exports = (sequelize, DataTypes) => {
       imagePath: {
         type: DataTypes.STRING,
         allowNull: true,
-      },
-      userId: {
-        type: DataTypes.STRING,
-        references: {
-          model: "user",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
     },
 

@@ -2,20 +2,10 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Appointment extends Model {
-    static associations(models) {
-      Appointment.belongsTo(models.Doctor, {
-        foreignKey: "doctorId",
-        as: "doctor",
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      });
-      Appointment.belongsTo(models.Patient, {
-        foreignKey: "patientId",
-        as: "patient",
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      });
-    }
+    // static associate(models) {
+    //   this.belongsTo(models.Doctor);
+    //   this.belongsTo(models.Patient);
+    // }
   }
   Appointment.init(
     {
@@ -35,24 +25,6 @@ module.exports = (sequelize, DataTypes) => {
       consultationDate: {
         type: DataTypes.DATE,
         allowNull: true,
-      },
-      doctorId: {
-        type: DataTypes.STRING,
-        references: {
-          model: "doctor",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
-      patientId: {
-        type: DataTypes.STRING,
-        references: {
-          model: "patient",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
     },
 

@@ -2,13 +2,8 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Schedule extends Model {
-    static associations(models) {
-      Schedule.belongsTo(models.Doctor, {
-        foreignKey: "doctorId",
-        as: "doctor",
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      });
+    static associate(models) {
+      // Schedule.belongsTo(models.Doctor);
     }
   }
   Schedule.init(
@@ -33,16 +28,6 @@ module.exports = (sequelize, DataTypes) => {
       phone: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      doctorId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {
-          model: "doctor",
-          key: "id",
-        },
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
       },
     },
 

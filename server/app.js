@@ -6,10 +6,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const http = require("http");
 // const tf = require("@tensorflow/tfjs");
-const plot = require("node-remote-plot");
-var nj = require("numjs");
+// const plot = require("node-remote-plot");
+// var nj = require("numjs");
 const tf = require("@tensorflow/tfjs-node");
-var nj = require("numjs");
 const app = express();
 const port = process.env.PORT || 4000;
 const server = http.createServer(app);
@@ -244,5 +243,7 @@ server.listen(port, () => {
     .catch((err) => {
       console.error("Unable to connect to the database:", err);
     });
+
+  // initDB.sequelize.sync();
   console.log(`Server running on port ${port}`);
 });

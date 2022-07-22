@@ -2,27 +2,26 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Patient extends Model {
-    static associations(models) {
-      Patient.hasMany(models.Appointment, {
+    static associate(models) {
+      this.hasMany(models.Appointment, {
         foreignKey: "patientId",
+        as: "patientAppointment",
       });
-      Patient.hasMany(models.Prescription, {
+      this.hasMany(models.Prescription, {
         foreignKey: "patientId",
+        as: "patientPrescription",
       });
-      Patient.hasMany(models.MedicalHistory, {
+      this.hasMany(models.MedicalHistory, {
         foreignKey: "patientId",
+        as: "patientMedicalHistory",
       });
-      Patient.hasMany(models.Meeting, {
+      this.hasMany(models.Meeting, {
         foreignKey: "patientId",
+        as: "patientMeeting",
       });
-      Patient.hasOne(models.Rating, {
+      this.hasOne(models.Rating, {
         foreignKey: "patientId",
-      });
-      Patient.belongsTo(models.User, {
-        foreignKey: "userId",
-        as: "patient",
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
+        as: "patientRating",
       });
     }
   }
@@ -41,17 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      userId: {
-        type: DataTypes.STRING,
-        references: {
-          model: "user",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
     },
-
     {
       sequelize,
       tableName: "patient",

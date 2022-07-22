@@ -2,19 +2,9 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Rating extends Model {
-    static associations(models) {
-      Rating.belongsTo(models.Doctor, {
-        foreignKey: "doctorId",
-        as: "doctor",
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      });
-      Rating.belongsTo(models.Patient, {
-        foreignKey: "patientId",
-        as: "patient",
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      });
+    static associate(models) {
+      // this.belongsTo(models.Doctor);
+      // this.belongsTo(models.Patient);
     }
   }
   Rating.init(
@@ -27,24 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       number: {
         type: DataTypes.INTEGER,
         allowNull: false,
-      },
-      doctorId: {
-        type: DataTypes.STRING,
-        references: {
-          model: "doctor",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
-      patientId: {
-        type: DataTypes.STRING,
-        references: {
-          model: "patient",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
     },
 

@@ -3,10 +3,8 @@ const { Model } = require("sequelize");
 const disease = require("./disease");
 module.exports = (sequelize, DataTypes) => {
   class Symptom extends Model {
-    static associations(models) {
+    static associate(models) {
       Symptom.belongsToMany(models.Disease, {
-        foreignKey: "symptomId",
-        as: "disease",
         through: "diseaseSymptom",
       });
     }

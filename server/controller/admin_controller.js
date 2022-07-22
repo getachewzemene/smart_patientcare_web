@@ -20,6 +20,7 @@ createAdmin = async (req, res) => {
   }
 };
 addDoctor = async (req, res) => {
+  console.log(req.body);
   const {
     id,
     firstName,
@@ -51,7 +52,7 @@ addDoctor = async (req, res) => {
         },
       },
       {
-        include: [db.Doctor],
+        include: [{ model: db.Doctor, as: "doctor" }],
       }
     );
     res.status(200).send({
@@ -59,6 +60,7 @@ addDoctor = async (req, res) => {
       data: doctorModel,
     });
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 };

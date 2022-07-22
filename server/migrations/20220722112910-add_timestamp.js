@@ -167,25 +167,9 @@ module.exports = {
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
           },
-          updatedAt: DataTypes.DATE,
-          createdAt: DataTypes.DATE,
-        },
-        {
-          hooks: {
-            beforeCreate: function (diseaseSymptom, options, fn) {
-              diseaseSymptom.createdAt = new Date();
-              diseaseSymptom.updatedAt = new Date();
-              fn(null, diseaseSymptom);
-            },
-            beforeUpdate: function (diseaseSymptom, options, fn) {
-              diseaseSymptom.updatedAt = new Date();
-              fn(null, diseaseSymptom);
-            },
-          },
         },
         {
           freezeTableName: true,
-          timestamps: true,
           transaction,
         }
       );
@@ -323,10 +307,6 @@ module.exports = {
             type: DataTypes.DATE,
             allowNull: false,
           },
-          phone: {
-            type: DataTypes.STRING,
-            allowNull: false,
-          },
           doctorId: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -383,7 +363,6 @@ module.exports = {
               key: "id",
             },
             onUpdate: "CASCADE",
-
             onDelete: "CASCADE",
           },
           updatedAt: DataTypes.DATE,
@@ -480,7 +459,7 @@ module.exports = {
             type: DataTypes.STRING,
             allowNull: true,
           },
-          hostId: {
+          doctorId: {
             type: DataTypes.STRING,
             allowNull: true,
             references: {
@@ -710,8 +689,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    // await queryInterface.removeColumn("admin", "createdAt");
-    // await queryInterface.removeColumn("admin", "updatedAt");
     await queryInterface.dropTable("admin");
     await queryInterface.dropTable("diseaseSymptom");
     await queryInterface.dropTable("symptom");
