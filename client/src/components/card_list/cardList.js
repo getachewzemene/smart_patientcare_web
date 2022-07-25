@@ -20,7 +20,7 @@ const cardList = () => {
     { name: "appointment", image: "./assets/logo192.png" },
   ];
   return (
-    <Row className="row">
+    <Row className="my-5 mx-0">
       <CustomeCard args={services}></CustomeCard>
     </Row>
   );

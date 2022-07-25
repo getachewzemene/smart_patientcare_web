@@ -15,7 +15,7 @@ const Main = () => {
     <main>
       <div className="main-container">
         <div className="main-title">
-          <img src="./logo512.png" alt="main" />
+          <img src="../logo512.png" alt="main" />
           <div className="main-greeting">
             <h1>Hello Admin</h1>
             <p>This is Admin Page all system info are displayed</p>

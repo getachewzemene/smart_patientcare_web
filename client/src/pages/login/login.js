@@ -1,46 +1,154 @@
-import { Form, Button, Card } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Form, Card, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./login.scss";
-const login = () => {
+import CustomNavbar from "../../components/navbar/navbar";
+import CustomFooter from "../../components/footer/footer";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { login } from "../../slices/auth_slice";
+import { clearMessage } from "../../slices/message_slice";
+const Login = (props) => {
+  const [loading, setLoading] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required("This field is required!"),
+    password: Yup.string().required("This field is required!"),
+  });
+  const handleLogin = (formValue) => {
+    const { email, password } = formValue;
+    setLoading(true);
+    dispatch(login({ email, password }))
+      .unwrap()
+      .then(() => {
+        props.history.push("/doctor");
+        window.location.reload();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+  // if (isLoggedIn) {
+  //   return <Navigate to="/doctor" />;
+  // }
   return (
     <>
-      <Card className="login-card mx-auto mt-2 mb-2">
+      <CustomNavbar />
+      <Card className="login-card">
         <Card.Header className="text-center">Login</Card.Header>
         <Card.Body>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label htmlFor="email">Email</Form.Label>
-              <Form.Control
-                type="email"
-                id="email"
-                placeholder="someone@mail.com"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label htmlFor="inputPassword5">Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="***************"
-                id="inputPassword5"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Remember me" />
-            </Form.Group>
-            <p className="px-4">
-              have no account yet ?{" "}
-              <Button href="/signup" variant="link">
-                Register
-              </Button>
-            </p>
-            <Form.Group className="px-5">
-              <Button as="input" type="submit" value="Login" />{" "}
-              <Button className="mx-3" as="input" type="reset" value="Reset" />
-            </Form.Group>
-          </Form>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleLogin}
+          >
+            {({
+              handleSubmit,
+              handleChange,
+              resetForm,
+              values,
+              touched,
+              errors,
+            }) => (
+              <Form onSubmit={handleSubmit}>
+                <Form.Label className="mt-3">Email</Form.Label>
+                <InputGroup hasValidation>
+                  <InputGroup.Text>
+                    {" "}
+                    <FontAwesomeIcon
+                      icon={faEnvelope}
+                      className="text-primary"
+                    />
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    placeholder="someone@gmail.com"
+                    value={values.email}
+                    onChange={handleChange}
+                    isValid={touched.email && !errors.email}
+                    isInvalid={!!errors.email}
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid" tooltip>
+                    {errors.email}
+                  </Form.Control.Feedback>
+                </InputGroup>
+
+                <Form.Label className="mt-3">Password</Form.Label>
+                <InputGroup hasValidation>
+                  <InputGroup.Text>
+                    <FontAwesomeIcon icon={faLock} className="text-primary" />
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    placeholder="*********"
+                    value={values.password}
+                    onChange={handleChange}
+                    isValid={touched.password && !errors.password}
+                    isInvalid={!!errors.password}
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid" tooltip>
+                    {errors.password}
+                  </Form.Control.Feedback>
+                </InputGroup>
+                <Form.Group className="my-3" controlId="formBasicCheckbox">
+                  <Form.Check type="checkbox" label="Remember me" />
+                </Form.Group>
+                <p className="px-3">
+                  have no account yet ?{""}
+                  <Button href="/signup" variant="link">
+                    Register
+                  </Button>
+                </p>
+                <Form.Group className="px-5 pb-4">
+                  <Button
+                    type="submit"
+                    className="btn btn-primary btn-block"
+                    disabled={loading}
+                  >
+                    {loading && (
+                      <span className="spinner-border spinner-border-sm"></span>
+                    )}
+                    Login
+                  </Button>
+                  <Button
+                    className="mx-3"
+                    as="input"
+                    type="reset"
+                    value="Reset"
+                    onClick={resetForm}
+                  />
+                </Form.Group>
+              </Form>
+            )}
+          </Formik>
+          {message && (
+            <div className="form-group">
+              <div className="alert alert-danger" role="alert">
+                {message}
+              </div>
+            </div>
+          )}
         </Card.Body>
       </Card>
+      <CustomFooter />
     </>
   );
 };
-export default login;
+export default Login;

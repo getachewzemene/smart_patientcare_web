@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 
 const AdminNavbar = ({ sidebarOpen, openSidebar }) => {
   return (
-    <nav className="navbar">
+    <nav className="admin-navbar">
       <div className="nav-icon" onClick={() => openSidebar()}>
         <i>
           <FontAwesomeIcon icon={faBars} />

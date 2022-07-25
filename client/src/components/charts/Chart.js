@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import "../../../node_modules/react-vis/dist/style.css";
 import "./Chart.scss";
 import {
@@ -10,8 +11,23 @@ import {
 } from "react-vis";
 
 const Chart = () => {
-  var width = window.innerWidth;
-  var height = window.innerHeight;
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+  useEffect(() => {
+    const changeWidth = () => {
+      setScreenWidth(window.innerWidth);
+    };
+    const changeHeight = () => {
+      setScreenHeight(window.innerHeight);
+    };
+    window.addEventListener("resizeWidth", changeWidth);
+    window.addEventListener("resizeHeight", changeHeight);
+    return () => {
+      window.removeEventListener("resizeWidth", changeWidth);
+      window.removeEventListener("resizeHeight", changeHeight);
+    };
+  }, []);
+
   const data = [
     { x: 0, y: 8 },
     { x: 1, y: 5 },
@@ -37,7 +53,7 @@ const Chart = () => {
 
   return (
     <div style={{ marginTop: "15px" }}>
-      <XYPlot width={width / 2} height={height / 3}>
+      <XYPlot width={screenWidth / 1.5} height={screenHeight / 4}>
         <VerticalGridLines />
         <HorizontalGridLines />
         <XAxis />

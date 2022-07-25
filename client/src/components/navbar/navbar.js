@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav } from "react-bootstrap";
 import "./navbar.scss";
-const navBar = () => {
+const CustomNavbar = () => {
   return (
     <Navbar
       collapseOnSelect
@@ -36,4 +36,4 @@ const navBar = () => {
     </Navbar>
   );
 };
-export default navBar;
+export default CustomNavbar;

@@ -16,7 +16,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
     <div className={sidebarOpen ? "sidebar-responsive" : ""} id="sidebar">
       <div className="sidebar-title">
         <div className="sidebar-logo">
-          <img src="./logo512.png" alt="logo" height="100px" />
+          <img src="../logo512.png" alt="logo" height="100px" />
           <h1>Smart PatientCare</h1>
         </div>
         <i id="sidebarIcon">
@@ -83,7 +83,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
           <i>
             <FontAwesomeIcon icon={faSignOut} />
           </i>
-          <NavLink className="anchor" to="#">
+          <NavLink className="anchor" to="/admin/login">
             Logout
           </NavLink>
         </div>

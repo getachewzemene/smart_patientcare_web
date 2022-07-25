@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, InputGroup, Row, Col } from "react-bootstrap";
+import { Button, Form, InputGroup, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Formik } from "formik";
 import * as yup from "yup";
-
+import "./addDoctor.scss";
 const schema = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
@@ -42,11 +42,11 @@ const AddDoctorForm = () => {
         touched,
         errors,
       }) => (
-        <div className="d-flex justify-content-center">
-          <div className="mx-auto my-3 border shadow p-3 bg-white rounded col-sm-12 col-lg-6 col-md-6">
-            <h1 className="text-center">Add Doctors</h1>
-            <Form onSubmit={handleSubmit} className="text-primary">
-              <Row className="mb-md-3">
+        <>
+          <Card className="doctor-container">
+            <Card.Header className="text-center">Add Doctor</Card.Header>
+            <Card.Body>
+              <Form onSubmit={handleSubmit} className="text-primary">
                 <Form.Label>first name</Form.Label>
                 <InputGroup hasValidation>
                   <InputGroup.Text>
@@ -144,22 +144,20 @@ const AddDoctorForm = () => {
                     {errors.file}
                   </Form.Control.Feedback>
                 </InputGroup>
-                <Row>
-                  <Col md={8} lg={4} sm={12}>
-                    <Button className="mt-4" type="submit">
-                      Submit Form
-                    </Button>
-                  </Col>
-                  <Col md={8} lg={8} sm={12}>
-                    <Button className="mt-4" type="reset" onClick={resetForm}>
-                      Reset
-                    </Button>
-                  </Col>
-                </Row>
-              </Row>
-            </Form>
-          </div>
-        </div>
+                <Form.Group className="px-5 py-4">
+                  <Button as="input" type="submit" value="Login" />{" "}
+                  <Button
+                    className="mx-3"
+                    as="input"
+                    type="reset"
+                    value="Reset"
+                    onClick={resetForm}
+                  />
+                </Form.Group>
+              </Form>
+            </Card.Body>
+          </Card>
+        </>
       )}
     </Formik>
   );

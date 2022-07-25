@@ -15,6 +15,7 @@ const server = http.createServer(app);
 const initDB = require("./models/index");
 // const socketRoute = require("./routes/socket_route");
 const adminRoute = require("./routes/admin_route");
+const loginRoute = require("./routes/login_route");
 // const meetingRoute = require("./routes/meeting_route");
 // const initMeetingServer = require("./meeting_server");
 // async function readCSV() {
@@ -215,6 +216,7 @@ app.use([
   // socketRoute,
 ]);
 app.use("/admin", adminRoute);
+app.use(loginRoute);
 // initMeetingServer(server);
 // const io = require("socket.io")(server, {
 //   cors: {

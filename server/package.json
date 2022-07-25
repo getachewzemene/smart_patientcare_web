@@ -1,7 +1,7 @@
 {
   "name": "smart_patientcare_and_assistance_system",
   "version": "1.0.0",
-  "description": "smart patient care and disease prediction with location assistance system",
+  "description": "smart patient care and disease prediction  system",
   "main": "app.js",
   "author": "Getch",
   "scripts": {
@@ -21,6 +21,7 @@
     "gpu.js": "^2.15.2",
     "helmet": "^5.1.0",
     "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
     "ml-random-forest": "^2.1.0",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^2.3.3",

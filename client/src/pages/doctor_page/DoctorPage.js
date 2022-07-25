@@ -29,21 +29,13 @@ const DoctorPage = () => {
   return (
     <>
       <Navbar bg="dark" className="mb-3">
-        <i className="fa-2x text-white">
+        <i className="fa-2x text-white mx-5">
           <FontAwesomeIcon icon={faBars} onClick={handleShow} />
         </i>
         <Navbar.Brand href="#">
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="px-5"
-              aria-label="Search"
-            />
-            <Button variant="light" className="ms-2">
-              Search
-            </Button>
-          </Form>
+          <h1 className="h1 text-red">
+            Smart<span className="h2 text-yellow">Pcare</span>
+          </h1>
         </Navbar.Brand>
         <Navbar.Offcanvas
           placement="start"
@@ -85,14 +77,14 @@ const DoctorPage = () => {
       </Navbar>
       <Row className="mx-2 bg-light text-dark">
         <Col lg={3} md={3} sm={12}>
-          <Card className="bg-light rounded-4 shadow w-lg-25 w-sm-100">
+          <Card className="bg-light shadow doctor-card">
             <Card.Img
               variant="top"
               className="rounded"
-              height={200}
+              height={250}
               src="/logo512.png"
             />
-            <Card.Body>
+            <Card.Body className="rounded">
               <Card.Title>Profile</Card.Title>
               <Card.Text>
                 Some quick example text to build on the card title and make up
@@ -114,7 +106,7 @@ const DoctorPage = () => {
                 className="my-2"
                 aria-label="Search"
               />
-              <Button variant="success my-2" className="ms-2">
+              <Button variant="success" className="mx-2 my-2">
                 Search
               </Button>
             </Form>
@@ -295,7 +287,7 @@ const DoctorPage = () => {
           </Table>
         </Col>
       </Row>
-      <Row className="mt-3 mx-0">
+      <Row className="mt-3 mx-2">
         <Col>
           <div className="d-flex justify-content-between">
             <h4>
@@ -308,7 +300,7 @@ const DoctorPage = () => {
                 className="my-2"
                 aria-label="Search"
               />
-              <Button variant="success my-2" className="ms-2">
+              <Button variant="success" className="mx-2 my-2">
                 Search
               </Button>
             </Form>

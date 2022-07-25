@@ -1,9 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import "./footer.scss";
-const footer = () => {
+const CustomFooter = () => {
   return (
-    <Row className="bg-dark text-white footer m-auto">
+    <Row className="bg-secondary text-white footer m-auto">
       <Col xs={12} md={2}>
         <h3>Services</h3>
         <ul>
@@ -61,4 +61,4 @@ const footer = () => {
     </Row>
   );
 };
-export default footer;
+export default CustomFooter;

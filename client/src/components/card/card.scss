@@ -1,15 +1,15 @@
 .customCard {
   border-radius: 30px;
-  width: 13rem;
-  height: 18rem;
+  width: 300px;
+  margin: 5px 30px;
   display: flex;
   align-content: center;
   align-items: center;
   justify-content: space-between;
   // background-color: cyan;
 }
-.column {
-  padding: 0;
-  flex: 1;
-  width: fit-content;
+
+.view-button {
+  margin-left: 50px;
+  border-radius: 30px;
 }

@@ -1,8 +1,14 @@
 .nav-container {
   width: 10px;
+  overflow-x: hidden;
 }
 .offcanvas-start {
   width: 300px;
+}
+.doctor-card {
+  border-radius: 30px;
+  overflow-x: hidden;
+  margin-right: 10px;
 }
 @media only screen and (max-width: 1095px) {
   .nav1 {

@@ -1,14 +1,16 @@
 const db = require("../models");
+const bcrypt = require("bcryptjs");
+const authToken = require("../middleware/auth");
 const createAdmin = async (req, res) => {
   const { id, firstName, lastName, email, password, phone } = req.body;
-
+  const hashPassword = bcrypt.hashSync(password, 10);
   try {
     const createdModel = await db.Admin.create({
       id: id,
       firstName: firstName,
       lastName: lastName,
       email: email,
-      password: password,
+      password: hashPassword,
       phone: phone,
     });
     res
@@ -17,6 +19,27 @@ const createAdmin = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(400).send(err);
+  }
+};
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const admin = await db.Admin.findOne({
+      where: { email: email },
+    });
+    if (!admin) res.status(404).send("data not found");
+    const isPasswordCorrect = bcrypt.compareSync(password, admin.password);
+    if (!isPasswordCorrect) res.status(403).send("incorrect passord");
+    res.status(200).send({
+      message: "admin login success",
+      data: {
+        id: admin.id,
+        email: admin.email,
+        token: authToken.createToken,
+      },
+    });
+  } catch (error) {
+    res.status(400).send(error);
   }
 };
 const addDoctor = async (req, res) => {
@@ -32,6 +55,7 @@ const addDoctor = async (req, res) => {
     address,
     specialization,
   } = req.body;
+  const hashPassword = bcrypt.hashSync(password, 10);
   try {
     const doctorModel = await db.User.create(
       {
@@ -39,7 +63,7 @@ const addDoctor = async (req, res) => {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: password,
+        password: hashPassword,
         phone: phone,
         gender: gender,
         DOB: DOB,
@@ -103,4 +127,4 @@ const createSchedule = async (req, res) => {
     res.status(400).send(error);
   }
 };
-module.exports = { createAdmin, addDoctor, addDisease, createSchedule };
+module.exports = { createAdmin, addDoctor, addDisease, createSchedule, login };

@@ -523,6 +523,10 @@ module.exports = {
             primaryKey: true,
             allowNull: false,
           },
+          diseaseName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+          },
           medicineName: {
             type: DataTypes.STRING,
             allowNull: false,

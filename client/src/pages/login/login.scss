@@ -1,4 +1,13 @@
 .login-card {
-  border-radius: 25px;
-  width: 25rem;
+  width: 30vw;
+  margin: 50px auto;
+  border-radius: 20px;
+  box-shadow: 4px 4px cyan;
+}
+
+@media only screen and(max-width: 976px) {
+  .login-card {
+    width: 90vw;
+    margin: 10px auto;
+  }
 }
