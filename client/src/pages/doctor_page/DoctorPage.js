@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Offcanvas,
   Button,
@@ -21,11 +22,29 @@ import {
   faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
 import "./DoctorPage.scss";
-const DoctorPage = () => {
-  const [show, setShow] = useState(false);
+import EventBus from "../../common/event_bus";
+import { logout } from "../../slices/auth_slice";
+import { Navigate } from "react-router-dom";
 
+const DoctorPage = () => {
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const dispatch = useDispatch();
+
+  const logOut = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
+  useEffect(() => {
+    EventBus.on("logout", () => {
+      logOut();
+    });
+    return () => {
+      EventBus.remove("logout");
+    };
+  });
+  if (!isLoggedIn) return <Navigate to="/login" />;
   return (
     <>
       <Navbar bg="dark" className="mb-3">
@@ -66,11 +85,10 @@ const DoctorPage = () => {
               </i>
               Check Disease
             </Nav.Link>
-            <Nav.Link href="#" className="h5 mt-5">
+            <Nav.Link href="/login" className="h5 mx-3 mt-5" onClick={logOut}>
               <i className="fa-1x mx-2">
-                <FontAwesomeIcon icon={faSignOut} />
+                <FontAwesomeIcon icon={faSignOut} /> Logout
               </i>
-              Logout
             </Nav.Link>
           </Offcanvas.Body>
         </Navbar.Offcanvas>

@@ -27,17 +27,21 @@ const login = async (req, res) => {
     const admin = await db.Admin.findOne({
       where: { email: email },
     });
-    if (!admin) res.status(404).send("data not found");
-    const isPasswordCorrect = bcrypt.compareSync(password, admin.password);
-    if (!isPasswordCorrect) res.status(403).send("incorrect passord");
-    res.status(200).send({
-      message: "admin login success",
-      data: {
-        id: admin.id,
-        email: admin.email,
-        token: authToken.createToken,
-      },
-    });
+    console.log(admin);
+    if (!admin) {
+      res.status(404).send("user not found");
+    } else {
+      const isPasswordCorrect = bcrypt.compareSync(password, admin.password);
+      if (!isPasswordCorrect) res.status(403).send("incorrect password");
+      else {
+        res.status(200).send({
+          id: admin.id,
+          email: admin.email,
+          role: admin.role,
+          accessToken: authToken.createToken(admin.id, admin.email),
+        });
+      }
+    }
   } catch (error) {
     res.status(400).send(error);
   }

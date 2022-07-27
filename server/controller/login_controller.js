@@ -1,5 +1,5 @@
 const token = require("../middleware/auth");
-const login = (req, res) => {
+const doctorLogin = (req, res) => {
   const { email, password } = req.body;
   id = 1;
   const accessToken = token.createToken(id, email);
@@ -8,8 +8,9 @@ const login = (req, res) => {
   res.status(200).send({
     id: id,
     email: email,
+    role: "doctor",
     accessToken: accessToken,
   });
 };
 
-module.exports = login;
+module.exports = doctorLogin;

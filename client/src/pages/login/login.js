@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button, Form, Card, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./login.scss";
@@ -13,8 +14,10 @@ import { faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { login } from "../../slices/auth_slice";
 import { clearMessage } from "../../slices/message_slice";
 const Login = (props) => {
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -23,6 +26,7 @@ const Login = (props) => {
   const initialValues = {
     email: "",
     password: "",
+    pathname: "",
   };
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("This field is required!"),
@@ -30,20 +34,25 @@ const Login = (props) => {
   });
   const handleLogin = (formValue) => {
     const { email, password } = formValue;
+    const pathname = location.pathname;
     setLoading(true);
-    dispatch(login({ email, password }))
+    dispatch(login({ email, password, pathname }))
       .unwrap()
       .then(() => {
-        props.history.push("/doctor");
+        currentUser.role === "admin"
+          ? props.history.push("/admin/dashboard")
+          : props.history.push("/doctor");
         window.location.reload();
       })
       .catch(() => {
         setLoading(false);
       });
   };
-  // if (isLoggedIn) {
-  //   return <Navigate to="/doctor" />;
-  // }
+  if (isLoggedIn) {
+    if (currentUser.role === "admin") return <Navigate to="/admin/dashboard" />;
+    if (currentUser.role === "doctor") return <Navigate to="/doctor" />;
+    return <Navigate to="/" />;
+  }
   return (
     <>
       <CustomNavbar />

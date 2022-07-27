@@ -1,16 +1,23 @@
+import React, { useState } from "react";
 import "./Main.scss";
 import Chart from "../charts/Chart";
-import { Table, Badge } from "react-bootstrap";
-import React from "react";
+import { Table, Badge, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faUserDoctor,
   faDisease,
   faListNumeric,
+  faAdd,
   // faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import AddDoctorModal from "../modals/AddDoctorModal";
 const Main = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <main>
       <div className="main-container">
@@ -27,7 +34,7 @@ const Main = () => {
               <FontAwesomeIcon icon={faUser} />
             </i>
             <div className="card-inner">
-              <p className="text-primary"> Number of Users</p>
+              <p className="text-primary mx-2"> Number of Users</p>
               <span className="font-bold text-title">5000</span>
             </div>
           </div>
@@ -45,7 +52,7 @@ const Main = () => {
               <FontAwesomeIcon icon={faUser} />
             </i>
             <div className="card-inner">
-              <p className="text-primary"> Total Appointments</p>
+              <p className="text-primary mx-2"> Total Appointments</p>
               <span className="font-bold text-title">300</span>
             </div>
           </div>
@@ -104,6 +111,16 @@ const Main = () => {
               </div>
             </div>
           </div> */}
+          <Button
+            onClick={handleShow}
+            style={{ width: "70px", height: "30px" }}
+          >
+            <i>
+              <FontAwesomeIcon icon={faAdd} />
+              Add
+            </i>
+          </Button>
+          <AddDoctorModal show={show} handleClose={handleClose} />
           <h2>
             Top Users <Badge bg="primary">New</Badge>
           </h2>

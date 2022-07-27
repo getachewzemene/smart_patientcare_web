@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "./message_slice";
 import AuthService from "../services/auth_service";
 const user = JSON.parse(localStorage.getItem("user"));
+
 export const register = createAsyncThunk(
   "auth/register",
   async ({ username, email, password }, thunkAPI) => {
@@ -23,25 +24,21 @@ export const register = createAsyncThunk(
 );
 export const login = createAsyncThunk(
   "auth/login",
-  async ({ email, password }, thunkAPI) => {
-    // console.log("from slice", email, password);
+  async ({ email, password, pathname }, thunkAPI) => {
     try {
-      const data = await AuthService.login(email, password);
+      const data = await AuthService.login(email, password, pathname);
       return { user: data };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      // console.log(error.response.data);
+      const message = error.response.data;
+
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
   }
 );
-export const logout = createAsyncThunk("auth/logout", async () => {
-  await AuthService.logout();
+export const logout = createAsyncThunk("auth/logout", () => {
+  AuthService.logout();
 });
 const initialState = user
   ? { isLoggedIn: true, user }

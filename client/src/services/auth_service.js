@@ -7,14 +7,13 @@ const register = async (username, email, password) => {
     password,
   });
 };
-const login = async (email, password) => {
+const login = async (email, password, pathname) => {
   return await axios
-    .post(BASE_URL + "/login", {
+    .post(BASE_URL + pathname, {
       email,
       password,
     })
     .then((response) => {
-      console.log(response.data);
       console.log(response.data.accessToken);
       if (response.data.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data));

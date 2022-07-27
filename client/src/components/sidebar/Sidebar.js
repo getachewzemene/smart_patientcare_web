@@ -1,5 +1,8 @@
+import React from "react";
 import "./Sidebar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import {
   faBars,
   faHome,
@@ -11,7 +14,24 @@ import {
   faDisease,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
+import EventBus from "../../common/event_bus";
+import { logout } from "../../slices/auth_slice";
+
 const Sidebar = ({ sidebarOpen, closeSidebar }) => {
+  const dispatch = useDispatch();
+  const logOut = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
+
+  useEffect(() => {
+    EventBus.on("logout", () => {
+      logOut();
+    });
+    return () => {
+      EventBus.remove("logout");
+    };
+  });
+
   return (
     <div className={sidebarOpen ? "sidebar-responsive" : ""} id="sidebar">
       <div className="sidebar-title">
@@ -83,7 +103,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
           <i>
             <FontAwesomeIcon icon={faSignOut} />
           </i>
-          <NavLink className="anchor" to="/admin/login">
+          <NavLink className="anchor" to="/admin/login" onClick={logOut}>
             Logout
           </NavLink>
         </div>
