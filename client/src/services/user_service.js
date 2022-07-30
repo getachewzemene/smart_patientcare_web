@@ -1,22 +1,81 @@
 import axios from "axios";
-import authHeader from "./auth-header";
+import user from "./auth_header";
 import { BASE_URL } from "./api_endpoint";
-const getPublicContent = () => {
+const accessToken = user.accessToken;
+const doctorId = user.id;
+const getAllDoctors = () => {
   return axios.get(BASE_URL + "all");
 };
-const getUserBoard = () => {
-  return axios.get(BASE_URL + "user", { headers: authHeader() });
+const addDoctor = async (
+  id,
+  firstName,
+  lastName,
+  email,
+  password,
+  phone,
+  gender,
+  DOB,
+  address,
+  specialization,
+  file
+) => {
+  const data = new FormData();
+  data.append("id", id);
+  data.append("firstName", firstName);
+  data.append("lastName", lastName);
+  data.append("email", email);
+  data.append("password", password);
+  data.append("phone", phone);
+  data.append("gender", gender);
+  data.append("DOB", DOB);
+  data.append("address", address);
+  data.append("specialization", specialization);
+  data.append("file", file);
+  console.log(file);
+
+  // console.log(accessToken);
+  return await axios
+    .post(BASE_URL + "/admin/add-doctor", data, {
+      headers: {
+        "x-access-token": accessToken,
+        "content-type": "multipart/form-data",
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
 };
-const getModeratorBoard = () => {
-  return axios.get(BASE_URL + "mod", { headers: authHeader() });
+const getDoctorById = async (id) => {
+  return await axios
+    .get(BASE_URL + "/doctor/doctor-by-id", {
+      params: { id: id },
+    })
+    .then((response) => {
+      const data = response.data;
+      return data;
+    });
 };
-const getAdminBoard = () => {
-  return axios.get(BASE_URL + "admin", { headers: authHeader() });
+const addPrescription = async (
+  id,
+  diseaseName,
+  medicineName,
+  description,
+  dosage
+) => {
+  return await axios
+    .post(
+      BASE_URL + "/doctor/add-prescription",
+      { id, diseaseName, medicineName, description, dosage, doctorId },
+      {
+        headers: {
+          "x-access-token": accessToken,
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      const data = response.data;
+      return data;
+    });
 };
-const userService = {
-  getPublicContent,
-  getUserBoard,
-  getModeratorBoard,
-  getAdminBoard,
-};
-export default userService;
+export { getAllDoctors, addDoctor, getDoctorById, addPrescription };

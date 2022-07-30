@@ -9,12 +9,12 @@ import App from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <Router>
-      <Provider store={store}>
-        <App />
-      </Provider>
-      {/* <h1>Hello world</h1> */}
-    </Router>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Router>
+    <Provider store={store}>
+      <App />
+    </Provider>
+    {/* <h1>Hello world</h1> */}
+  </Router>
+  // </React.StrictMode>
 );

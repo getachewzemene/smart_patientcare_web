@@ -14,7 +14,7 @@ const verifyToken = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   //Authorization: 'Bearer TOKEN'
   if (!token) {
-    res.status(403).json("token expired or not provided");
+    res.status(403).json("token expired or invalid token");
   }
   //Decoding the token
   const decodedToken = jwt.verify(token, "token12341234");

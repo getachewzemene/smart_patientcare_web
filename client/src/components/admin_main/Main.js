@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Main.scss";
 import Chart from "../charts/Chart";
-import { Table, Badge, Button } from "react-bootstrap";
+import { Table, Badge, Button, Toast, ToastContainer } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -14,9 +14,15 @@ import {
 import AddDoctorModal from "../modals/AddDoctorModal";
 const Main = () => {
   const [show, setShow] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShowToast(true);
+    setShow(false);
+  };
+  const handleShow = () => {
+    setShow(true);
+  };
 
   return (
     <main>
@@ -28,6 +34,21 @@ const Main = () => {
             <p>This is Admin Page all system info are displayed</p>
           </div>
         </div>
+        <ToastContainer position="middle-end">
+          <Toast
+            bg="success"
+            onClose={() => setShowToast(false)}
+            show={showToast}
+            delay={5000}
+            autohide
+          >
+            <Toast.Header>
+              <strong className="me-auto">Message</strong>
+              <small>NOW</small>
+            </Toast.Header>
+            <Toast.Body className="text-white">Doctor Added Success</Toast.Body>
+          </Toast>
+        </ToastContainer>
         <div className="main-cards">
           <div className="custom-card">
             <i className="fa-2x text-lightblue">
@@ -112,6 +133,7 @@ const Main = () => {
             </div>
           </div> */}
           <Button
+            id="add-doctor-btn"
             onClick={handleShow}
             style={{ width: "70px", height: "30px" }}
           >
@@ -122,7 +144,7 @@ const Main = () => {
           </Button>
           <AddDoctorModal show={show} handleClose={handleClose} />
           <h2>
-            Top Users <Badge bg="primary">New</Badge>
+            Top Doctors <Badge bg="primary">New</Badge>
           </h2>
           <Table striped responsive hover bordered border={1}>
             <thead>

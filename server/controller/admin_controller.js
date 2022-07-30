@@ -1,6 +1,7 @@
 const db = require("../models");
 const bcrypt = require("bcryptjs");
 const authToken = require("../middleware/auth");
+
 const createAdmin = async (req, res) => {
   const { id, firstName, lastName, email, password, phone } = req.body;
   const hashPassword = bcrypt.hashSync(password, 10);
@@ -27,7 +28,7 @@ const login = async (req, res) => {
     const admin = await db.Admin.findOne({
       where: { email: email },
     });
-    console.log(admin);
+    // console.log(admin);
     if (!admin) {
       res.status(404).send("user not found");
     } else {
@@ -47,6 +48,7 @@ const login = async (req, res) => {
   }
 };
 const addDoctor = async (req, res) => {
+  // console.log(req.body);
   const {
     id,
     firstName,
@@ -75,6 +77,7 @@ const addDoctor = async (req, res) => {
         role: "doctor",
         doctor: {
           id: id,
+          imagePath: req.file.path,
           specialization: specialization,
         },
       },
@@ -131,4 +134,10 @@ const createSchedule = async (req, res) => {
     res.status(400).send(error);
   }
 };
-module.exports = { createAdmin, addDoctor, addDisease, createSchedule, login };
+module.exports = {
+  createAdmin,
+  addDoctor,
+  addDisease,
+  createSchedule,
+  login,
+};

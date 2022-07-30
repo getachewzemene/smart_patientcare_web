@@ -13,6 +13,7 @@ import "./App.scss";
 import AddDoctorForm from "./pages/add_doctor/AddDoctor";
 import DoctorPage from "./pages/doctor_page/DoctorPage";
 import { AdminPrivateRoutes, DoctorPrivateRoutes } from "./utils/PrivateRoutes";
+import DoctorProfile from "./pages/doctor_page/DoctorProfile";
 
 const App = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -35,6 +36,7 @@ const App = () => {
           </Route>
           <Route element={<DoctorPrivateRoutes userInfo={userInfo} />}>
             <Route path="/doctor" element={<DoctorPage />} />
+            <Route path="/doctor/profile" element={<DoctorProfile />} />
           </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />

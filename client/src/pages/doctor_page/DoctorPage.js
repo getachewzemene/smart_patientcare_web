@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState, useCallback } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Offcanvas,
@@ -12,7 +12,9 @@ import {
   Col,
   Card,
   Nav,
+  NavLink,
   Dropdown,
+  Pagination,
 } from "react-bootstrap";
 import {
   faBars,
@@ -21,18 +23,15 @@ import {
   faUserCheck,
   faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
+
 import "./DoctorPage.scss";
 import EventBus from "../../common/event_bus";
 import { logout } from "../../slices/auth_slice";
 import { Navigate } from "react-router-dom";
-
+import AddPrescriptionModal from "../../components/modals/AddPrescriptionModal";
 const DoctorPage = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const dispatch = useDispatch();
-
   const logOut = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
@@ -44,16 +43,29 @@ const DoctorPage = () => {
       EventBus.remove("logout");
     };
   });
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  const handleShowModal = () => {
+    setShow(false);
+    setShowModal(true);
+  };
   if (!isLoggedIn) return <Navigate to="/login" />;
   return (
     <>
-      <Navbar bg="dark" className="mb-3">
+      <Navbar bg="dark" className="mb-3 doctor-nav">
         <i className="fa-2x text-white mx-5">
           <FontAwesomeIcon icon={faBars} onClick={handleShow} />
         </i>
         <Navbar.Brand href="#">
-          <h1 className="h1 text-red">
-            Smart<span className="h2 text-yellow">Pcare</span>
+          <h1 className="h1 text-green">
+            Smart<span className="h2 text-yellow">Patient</span>
+            <span className="h3 text-red">Care</span>
           </h1>
         </Navbar.Brand>
         <Navbar.Offcanvas
@@ -85,6 +97,12 @@ const DoctorPage = () => {
               </i>
               Check Disease
             </Nav.Link>
+            <NavLink href="#" className="h5" onClick={handleShowModal}>
+              <i className="fa-1x mx-2">
+                <FontAwesomeIcon icon={faDisease} />
+              </i>
+              Add Prescription
+            </NavLink>
             <Nav.Link href="/login" className="h5 mx-3 mt-5" onClick={logOut}>
               <i className="fa-1x mx-2">
                 <FontAwesomeIcon icon={faSignOut} /> Logout
@@ -93,6 +111,7 @@ const DoctorPage = () => {
           </Offcanvas.Body>
         </Navbar.Offcanvas>
       </Navbar>
+      <AddPrescriptionModal show={showModal} handleClose={handleCloseModal} />
       <Row className="mx-2 bg-light text-dark">
         <Col lg={3} md={3} sm={12}>
           <Card className="bg-light shadow doctor-card">
@@ -108,7 +127,9 @@ const DoctorPage = () => {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </Card.Text>
-              <Button variant="primary">View Detail</Button>
+              <Button variant="primary mx-5 doctor-view-btn">
+                View Detail
+              </Button>
             </Card.Body>
           </Card>
         </Col>
@@ -303,6 +324,19 @@ const DoctorPage = () => {
               </tr>
             </tbody>
           </Table>
+          <Pagination size="md">
+            <Pagination.First />
+            <Pagination.Prev />
+            <Pagination.Item active>{1}</Pagination.Item>
+            <Pagination.Item>{10}</Pagination.Item>
+            <Pagination.Item>{11}</Pagination.Item>
+            <Pagination.Item>{12}</Pagination.Item>
+            <Pagination.Item>{13}</Pagination.Item>
+            <Pagination.Item>{14}</Pagination.Item>
+            <Pagination.Item>{20}</Pagination.Item>
+            <Pagination.Next />
+            <Pagination.Last />
+          </Pagination>
         </Col>
       </Row>
       <Row className="mt-3 mx-2">

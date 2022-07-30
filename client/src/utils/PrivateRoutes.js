@@ -11,7 +11,7 @@ const AdminPrivateRoutes = ({ userInfo }) => {
     }
     return <AccessDenied />;
   } else {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 };
 const DoctorPrivateRoutes = ({ userInfo }) => {
@@ -22,7 +22,7 @@ const DoctorPrivateRoutes = ({ userInfo }) => {
     }
     return <AccessDenied />;
   } else {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
 };
 export { AdminPrivateRoutes, DoctorPrivateRoutes };

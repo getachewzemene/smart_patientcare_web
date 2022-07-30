@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const dfd = require("danfojs-node");
 const bodyParser = require("body-parser");
+const path = require("path");
 // const { RandomForestClassifier } = require("ml-random-forest");
 const cors = require("cors");
 const http = require("http");
@@ -16,6 +17,7 @@ const initDB = require("./models/index");
 // const socketRoute = require("./routes/socket_route");
 const adminRoute = require("./routes/admin_route");
 const loginRoute = require("./routes/login_route");
+const doctorRoute = require("./routes/doctor_route");
 // const meetingRoute = require("./routes/meeting_route");
 // const initMeetingServer = require("./meeting_server");
 // async function readCSV() {
@@ -215,7 +217,9 @@ app.use([
   // meetingRoute,
   // socketRoute,
 ]);
+app.use("/images", express.static("./images"));
 app.use("/admin", adminRoute);
+app.use("/doctor", doctorRoute);
 app.use(loginRoute);
 // initMeetingServer(server);
 // const io = require("socket.io")(server, {

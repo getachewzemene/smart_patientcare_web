@@ -1,3 +1,5 @@
+import React, { useEffect, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import "./AdminNavbar.scss";
 import {
   faBars,
@@ -7,8 +9,24 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NavLink } from "react-router-dom";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import EventBus from "../../common/event_bus";
+import { logout } from "../../slices/auth_slice";
 
 const AdminNavbar = ({ sidebarOpen, openSidebar }) => {
+  const dispatch = useDispatch();
+  const logOut = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
+
+  useEffect(() => {
+    EventBus.on("logout", () => {
+      logOut();
+    });
+    return () => {
+      EventBus.remove("logout");
+    };
+  });
   return (
     <nav className="admin-navbar">
       <div className="nav-icon" onClick={() => openSidebar()}>
@@ -41,10 +59,16 @@ const AdminNavbar = ({ sidebarOpen, openSidebar }) => {
             <FontAwesomeIcon icon={faUser} />
           </i>
         </NavLink>
-        <NavLink to="#" className="anchor">
-          <i>
-            <FontAwesomeIcon icon={faSignOut} />
-          </i>
+        <NavLink className="anchor" to="/" onClick={logOut}>
+          <OverlayTrigger
+            delay={{ hide: 100, show: 0 }}
+            overlay={(props) => <Tooltip {...props}>Logout</Tooltip>}
+            placement="bottom"
+          >
+            <i>
+              <FontAwesomeIcon icon={faSignOut} />
+            </i>
+          </OverlayTrigger>
         </NavLink>
       </div>
     </nav>

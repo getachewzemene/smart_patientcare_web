@@ -8,6 +8,7 @@ const register = async (username, email, password) => {
   });
 };
 const login = async (email, password, pathname) => {
+  console.log(email, password, pathname);
   return await axios
     .post(BASE_URL + pathname, {
       email,
@@ -18,6 +19,7 @@ const login = async (email, password, pathname) => {
       if (response.data.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
+      // console.log(response.data);
       return response.data;
     });
 };
