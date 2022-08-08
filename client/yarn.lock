@@ -8261,6 +8261,11 @@ react-motion@^0.5.2:
     prop-types "^15.5.8"
     raf "^3.1.0"
 
+react-multi-select-component@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-multi-select-component/-/react-multi-select-component-4.3.0.tgz#c971bd94b246c0d90bbc304151c5ffa00626d8c7"
+  integrity sha512-2SgFf+6kBYsPP/CFgYU8cNBt8sbQ2VjG0E4pTyvb2RkXc2KDvkfB79TQXWPiGw57cbdJRD9WBsQddbMdTrwH8g==
+
 react-redux@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-8.0.2.tgz#bc2a304bb21e79c6808e3e47c50fe1caf62f7aad"

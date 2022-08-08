@@ -14,10 +14,11 @@ import {
   faDisease,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 import EventBus from "../../common/event_bus";
 import { logout } from "../../slices/auth_slice";
 
-const Sidebar = ({ sidebarOpen, closeSidebar }) => {
+const Sidebar = ({ sidebarOpen, closeSidebar, handleShowModal }) => {
   const dispatch = useDispatch();
   const logOut = useCallback(() => {
     dispatch(logout());
@@ -36,13 +37,17 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
     <div className={sidebarOpen ? "sidebar-responsive" : ""} id="sidebar">
       <div className="sidebar-title">
         <div className="sidebar-logo">
-          <img src="../logo512.png" alt="logo" height="100px" />
-          <h1>Smart PatientCare</h1>
+          <span className="h4 text-green">
+            Smart<span className="h4 text-yellow">Patient</span>
+            <span className="h4 text-red">Care</span>
+          </span>
         </div>
+
         <i id="sidebarIcon">
           <FontAwesomeIcon icon={faBars} onClick={() => closeSidebar()} />
         </i>
       </div>
+      <h6 className="mb-2">Amazing technology. Graceful care</h6>
       <div className="sidebar-menu">
         <div className="sidebar-link active-menu-link">
           <i>
@@ -60,12 +65,12 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
           </NavLink>
         </div>
         <div className="sidebar-link">
-          <i>
-            <FontAwesomeIcon icon={faDisease} />
-          </i>
-          <NavLink className="anchor" to="#">
-            Disease Management
-          </NavLink>
+          <Nav.Link className="anchor m-0 p-0" onClick={handleShowModal}>
+            <i className="fa-1x">
+              <FontAwesomeIcon icon={faDisease} />
+            </i>
+            Add Disease
+          </Nav.Link>
         </div>
         <div className="sidebar-link">
           <i>

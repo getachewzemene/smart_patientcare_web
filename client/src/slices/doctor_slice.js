@@ -4,6 +4,8 @@ import {
   addDoctor,
   getDoctorById,
   addPrescription,
+  addDisease,
+  predictDisease,
 } from "../services/user_service";
 
 export const addDoctorData = createAsyncThunk(
@@ -69,6 +71,30 @@ export const addPrescriptionData = createAsyncThunk(
     }
   }
 );
+export const addDiseaseData = createAsyncThunk(
+  "admin/add_disease",
+  async (
+    { id, diseaseName, diseaseCategory, precuation, symptoms },
+    thunkAPI
+  ) => {
+    try {
+      const data = await addDisease(
+        id,
+        diseaseName,
+        diseaseCategory,
+        precuation,
+        symptoms
+      );
+      return { diseaseData: data };
+    } catch (error) {
+      // console.log(error.response.data);
+      const message = error.response.data;
+
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 export const getDoctorData = createAsyncThunk(
   "doctor/get_doctor",
   async ({ id }, thunkAPI) => {
@@ -85,10 +111,28 @@ export const getDoctorData = createAsyncThunk(
     }
   }
 );
+export const getPridictedDisease = createAsyncThunk(
+  "doctor/get_predicted_disease",
+  async ({ symptomValue }, thunkAPI) => {
+    try {
+      // console.log("from redux thunk", symptomValue);
+      const responseData = await predictDisease(symptomValue);
+      // console.log(responseData);
+      return { predictedDisease: responseData };
+    } catch (error) {
+      // console.log(error.response.data);
+      const message = error.response.data;
+
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 
 const initialState = {
   isLoading: false,
   doctorById: null,
+  diseaseName: "",
   hasError: false,
 };
 const doctorSlice = createSlice({
@@ -113,6 +157,18 @@ const doctorSlice = createSlice({
       state.isLoading = false;
       state.hasError = true;
     },
+    [addDiseaseData.pending]: (state, action) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    [addDiseaseData.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = false;
+    },
+    [addDiseaseData.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = true;
+    },
     [getDoctorData.pending]: (state, action) => {
       state.isLoading = true;
       state.hasError = false;
@@ -134,6 +190,19 @@ const doctorSlice = createSlice({
       state.hasError = false;
     },
     [addPrescriptionData.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = true;
+    },
+    [getPridictedDisease.pending]: (state, action) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    [getPridictedDisease.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.diseaseName = action.payload;
+      state.hasError = false;
+    },
+    [getPridictedDisease.rejected]: (state, action) => {
       state.isLoading = false;
       state.hasError = true;
     },

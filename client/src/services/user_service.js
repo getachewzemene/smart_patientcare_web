@@ -78,4 +78,46 @@ const addPrescription = async (
       return data;
     });
 };
-export { getAllDoctors, addDoctor, getDoctorById, addPrescription };
+const addDisease = async (
+  id,
+  diseaseName,
+  diseaseCategory,
+  precuation,
+  symptoms
+) => {
+  console.log("from axios", symptoms);
+  return await axios
+    .post(
+      BASE_URL + "/admin/add-disease",
+      { id, diseaseName, diseaseCategory, precuation, symptoms },
+      {
+        headers: {
+          "x-access-token": accessToken,
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      const data = response.data;
+      return data;
+    });
+};
+const predictDisease = async (symptoms) => {
+  return await axios
+    .get(BASE_URL + "/predict-disease", {
+      params: { symptoms: symptoms },
+    })
+    .then((response) => {
+      const data = response.data;
+      console.log(data);
+      return data;
+    });
+};
+export {
+  getAllDoctors,
+  addDoctor,
+  getDoctorById,
+  addPrescription,
+  addDisease,
+  predictDisease,
+};

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Main.scss";
 import Chart from "../charts/Chart";
+import { useSelector } from "react-redux";
 import { Table, Badge, Button, Toast, ToastContainer } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,7 +16,7 @@ import AddDoctorModal from "../modals/AddDoctorModal";
 const Main = () => {
   const [show, setShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
-
+  const { user: currentUser } = useSelector((state) => state.auth);
   const handleClose = () => {
     setShowToast(true);
     setShow(false);
@@ -28,9 +29,9 @@ const Main = () => {
     <main>
       <div className="main-container">
         <div className="main-title">
-          <img src="../logo512.png" alt="main" />
+          <img src="../assets/admin-logo.jpg" alt="main" />
           <div className="main-greeting">
-            <h1>Hello Admin</h1>
+            <h1>Hello {currentUser.email}</h1>
             <p>This is Admin Page all system info are displayed</p>
           </div>
         </div>

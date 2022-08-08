@@ -47,7 +47,7 @@ body {
 .text-green {
   color: #3b9668;
 }
-.container {
+.admin-container {
   display: grid;
   height: 100vh;
   grid-template-columns: 0.8fr 1fr 1fr 1fr;
@@ -61,7 +61,7 @@ body {
 }
 
 @media only screen and (max-width: 978px) {
-  .container {
+  .admin-container {
     grid-template-columns: 1fr;
     grid-template-rows: 0.2fr 3fr;
     grid-template-areas:

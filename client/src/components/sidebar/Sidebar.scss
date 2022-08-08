@@ -11,7 +11,7 @@
   justify-content: space-between;
   align-items: center;
   color: #f3f4f6;
-  margin-bottom: 30px;
+  // margin-bottom: 30px;
   .sidebar-logo {
     display: flex;
     align-items: center;
@@ -50,6 +50,7 @@
   margin-bottom: 5px;
   .anchor {
     // text-decoration: none;
+    text-decoration: underline;
     color: black;
     font-weight: 700;
   }

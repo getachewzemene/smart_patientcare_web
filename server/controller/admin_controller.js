@@ -95,15 +95,16 @@ const addDoctor = async (req, res) => {
   }
 };
 const addDisease = async (req, res) => {
-  const { id, diseaseName, category, precuation, symptom } = req.body;
+  const { id, diseaseName, diseaseCategory, precuation, symptoms } = req.body;
+  // console.log(req.body);
   try {
     const diseaseModel = await db.Disease.create({
       id: id,
       diseaseName: diseaseName,
-      category: category,
+      category: diseaseCategory,
       precuation: precuation,
     });
-    const symptomModel = await db.Symptom.bulkCreate(symptom);
+    const symptomModel = await db.Symptom.bulkCreate(symptoms);
     if (diseaseModel && symptomModel)
       await diseaseModel.addSymptom(symptomModel);
     res.status(200).send({

@@ -60,7 +60,7 @@ const AddPrescriptionModal = ({ show, handleClose }) => {
       .then((response) => {
         setAddDescriptionToast("prescription data add success");
         setShowToast(true);
-        console.log(response);
+        // console.log(response);
       })
       .catch(() => {});
   };

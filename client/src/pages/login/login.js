@@ -51,7 +51,7 @@ const Login = (props) => {
   if (isLoggedIn) {
     if (currentUser.role === "admin") return <Navigate to="/admin/dashboard" />;
     if (currentUser.role === "doctor") return <Navigate to="/doctor" />;
-    return <Navigate to="/" />;
+    // return <Navigate to="/" />;
   }
   return (
     <>

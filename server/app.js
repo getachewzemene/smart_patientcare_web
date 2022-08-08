@@ -1,15 +1,9 @@
 require("dotenv").config();
 const express = require("express");
-const dfd = require("danfojs-node");
 const bodyParser = require("body-parser");
 const path = require("path");
-// const { RandomForestClassifier } = require("ml-random-forest");
 const cors = require("cors");
 const http = require("http");
-// const tf = require("@tensorflow/tfjs");
-// const plot = require("node-remote-plot");
-// var nj = require("numjs");
-const tf = require("@tensorflow/tfjs-node");
 const app = express();
 const port = process.env.PORT || 4000;
 const server = http.createServer(app);
@@ -18,6 +12,7 @@ const initDB = require("./models/index");
 const adminRoute = require("./routes/admin_route");
 const loginRoute = require("./routes/login_route");
 const doctorRoute = require("./routes/doctor_route");
+const predictDiseaseRoute = require("./routes/predict_disease_route");
 // const meetingRoute = require("./routes/meeting_route");
 // const initMeetingServer = require("./meeting_server");
 // async function readCSV() {
@@ -134,81 +129,6 @@ const doctorRoute = require("./routes/doctor_route");
 //   .catch((err) => {
 //     console.log(err);
 //   });
-// var disease = [
-//   "Fungal infection",
-//   "Allergy",
-//   "GERD",
-//   "Chronic cholestasis",
-//   "Drug Reaction",
-//   "Peptic ulcer diseae",
-//   "AIDS",
-//   "Diabetes ",
-//   "Gastroenteritis",
-//   "Bronchial Asthma",
-//   "Hypertension ",
-//   "Migraine",
-//   "Cervical spondylosis",
-//   "Paralysis (brain hemorrhage)",
-//   "Jaundice",
-//   "Malaria",
-//   "Chicken pox",
-//   "Dengue",
-//   "Typhoid",
-//   "hepatitis A",
-//   "Hepatitis B",
-//   "Hepatitis C",
-//   "Hepatitis D",
-//   "Hepatitis E",
-//   "Alcoholic hepatitis",
-//   "Tuberculosis",
-//   "Common Cold",
-//   "Pneumonia",
-//   "Dimorphic hemmorhoids(piles)",
-//   "Heart attack",
-//   "Varicose veins",
-//   "Hypothyroidism",
-//   "Hyperthyroidism",
-//   "Hypoglycemia",
-//   "Osteoarthristis",
-//   "Arthritis",
-//   "(vertigo) Paroymsal  Positional Vertigo",
-//   "Acne",
-//   "Urinary tract infection",
-//   "Psoriasis",
-//   "Impetigo",
-// ];
-// let series = new dfd.Series(disease);
-// let encode = new dfd.LabelEncoder();
-// encode.fit(series);
-
-// encodedDisease = encode.transform(series.values);
-// // console.log(encodedDisease);
-// const model = tf
-//   .loadLayersModel("file://./node_tfmodel/model.json")
-//   .then((predictionModel) => {
-//     console.log("tf model loaded");
-//     const input = tf.tensor2d([
-//       [
-//         1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//       ],
-//     ]);
-
-//     var testPrediction = predictionModel.predict(input);
-//     console.log("predicted result:");
-//     testPrediction.print();
-//     diseaseClass = testPrediction.argMax(-1).dataSync()[0];
-//     console.log(diseaseClass);
-
-//     console.log(encode.inverseTransform([diseaseClass]));
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
 
 app.use([
   bodyParser.json(),
@@ -221,6 +141,7 @@ app.use("/images", express.static("./images"));
 app.use("/admin", adminRoute);
 app.use("/doctor", doctorRoute);
 app.use(loginRoute);
+app.use(predictDiseaseRoute);
 // initMeetingServer(server);
 // const io = require("socket.io")(server, {
 //   cors: {
