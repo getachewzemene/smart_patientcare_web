@@ -52,7 +52,7 @@ const Chart = () => {
   ];
 
   return (
-    <div style={{ marginTop: "15px" }}>
+    <div style={{ marginTop: "15px", paddingBottom: "30px" }}>
       <XYPlot width={screenWidth / 1.5} height={screenHeight / 4}>
         <VerticalGridLines />
         <HorizontalGridLines />

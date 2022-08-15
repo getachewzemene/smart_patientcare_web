@@ -7,9 +7,9 @@ const home = () => {
   return (
     <>
       <NavBar />
-      <Carousel />
+      <Carousel className="custom-carousel" />
       <h3 className="consult-h3">
-        Consult top doctors onlin for any health concerns
+        Consult top doctors online for any health concerns
       </h3>
       <CardList />
       <div>Common Health Issues</div>

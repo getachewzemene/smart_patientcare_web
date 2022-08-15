@@ -1,37 +1,67 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Main from "../../components/admin_main/Main";
 import AdminNavbar from "../../components/admin_navbar/AdminNavbar";
 import AddDiseaseModal from "../../components/modals/AddDiseaseModal";
+import AddDoctorModal from "../../components/modals/AddDoctorModal";
 import Sidebar from "../../components/sidebar/Sidebar";
+import { getAllDcotor } from "../../services/user_service";
 import "./admin_page.scss";
 
 const AdminPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [doctorData, setAllDoctorData] = useState([]);
   const openSidebar = () => {
     setSidebarOpen(true);
   };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getAllDcotor().then((response) => {
+      setAllDoctorData(response);
+    });
+  }, [dispatch]);
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
-  const [showModal, setShowModal] = useState(false);
+  const [showDoctorModal, setShowDoctorModal] = useState(false);
+  const [showDiseaseModal, setShowDiseaseModal] = useState(false);
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-  const handleShowModal = () => {
+  const handleShowDoctorModal = () => {
     setSidebarOpen(false);
-    setShowModal(true);
+    setShowDoctorModal(true);
   };
+  const handleCloseDoctorModal = () => {
+    setShowDoctorModal(false);
+  };
+
+  const handleShowDiseaseModal = () => {
+    setSidebarOpen(false);
+    setShowDiseaseModal(true);
+  };
+  const handleCloseDiseaseModal = () => {
+    setShowDiseaseModal(false);
+  };
+
   return (
     <div className="admin-container">
       <AdminNavbar sidebarOpen={sidebarOpen} openSidebar={openSidebar} />
-      <Main />
+      <Main doctorData={doctorData} />
+
       <Sidebar
         sidebarOpen={sidebarOpen}
         closeSidebar={closeSidebar}
-        handleShowModal={handleShowModal}
+        handleShowDoctorModal={handleShowDoctorModal}
+        handleShowDiseaseModal={handleShowDiseaseModal}
       />
-      <AddDiseaseModal show={showModal} handleClose={handleCloseModal} />
+      <AddDiseaseModal
+        show={showDiseaseModal}
+        handleClose={handleCloseDiseaseModal}
+      />
+      <AddDoctorModal
+        show={showDoctorModal}
+        handleClose={handleCloseDoctorModal}
+      />
     </div>
   );
 };

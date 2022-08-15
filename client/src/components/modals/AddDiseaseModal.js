@@ -69,7 +69,7 @@ const AddDiseaseModal = ({ show, handleClose }) => {
       .then((response) => {
         setAddDiseaseToast("disease data add success");
         setShowToast(true);
-        handleClose();
+        // handleClose();
         // console.log(response);
       })
       .catch(() => {});

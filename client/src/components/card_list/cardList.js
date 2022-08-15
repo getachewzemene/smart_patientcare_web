@@ -5,19 +5,19 @@ const cardList = () => {
   const services = [
     {
       name: "video consultation",
-      image: "./asstes/logo192.png",
+      image: "./assets/video_call.jpg",
     },
-    { name: "appointment", image: "./assets/logo192.png" },
+    { name: "appointment", image: "./assets/appointment_doctor.jpeg" },
     {
-      name: "video consultation",
-      image: "./asstes/logo192.png",
+      name: "Disease Prediction",
+      image: "./assets/disease_prediction.webp",
     },
-    { name: "appointment", image: "./assets/logo192.png" },
+    { name: "Online Treatment", image: "./assets/online_consultation.jpg" },
     {
-      name: "video consultation",
-      image: "./asstes/logo192.png",
+      name: "Consult Specialists remotely",
+      image: "./assets/top_doctors.jpg",
     },
-    { name: "appointment", image: "./assets/logo192.png" },
+    { name: "Remote Medication", image: "./assets/online_medication.jpeg" },
   ];
   return (
     <Row className="my-5 mx-0">

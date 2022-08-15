@@ -12,13 +12,16 @@ const CustomNavbar = () => {
   return (
     <Navbar
       collapseOnSelect
-      bg="secondary"
       variant="dark"
       expand="lg"
       sticky="top"
+      className="home-nav"
     >
       <Navbar.Brand href="/" className="logo">
-        SPCA
+        <span className="h4 text-green mx-4">
+          Smart<span className="h4 text-yellow">Patient</span>
+          <span className="h4 text-red">Care</span>
+        </span>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">

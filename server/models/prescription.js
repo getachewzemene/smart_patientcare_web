@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasOne(models.MedicalHistory, {
         foreignKey: "prescriptionId",
-        as: "PrescriptionHistory",
+        as: "prescriptionHistory",
       });
       // this.belongsTo(models.Doctor);
       // this.belongsTo(models.Patient);

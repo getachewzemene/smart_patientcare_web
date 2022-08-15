@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "doctorId",
         as: "doctorRating",
       });
-      // this.belongsTo(models.User);
+      this.belongsTo(models.User, { foreignKey: "userId", as: "doctorUser" });
     }
   }
   Doctor.init(

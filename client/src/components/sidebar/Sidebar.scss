@@ -1,5 +1,5 @@
 #sidebar {
-  background: lightgray;
+  background-color: #275091;
   grid-area: sidebar;
   overflow-y: auto;
   padding: 20px;
@@ -44,19 +44,19 @@
 }
 
 .sidebar-link {
-  color: #f3f4f6;
+  color: #f7f7f8;
   padding: 10px;
   border-radius: 3px;
   margin-bottom: 5px;
   .anchor {
     // text-decoration: none;
     text-decoration: underline;
-    color: black;
+    color: rgb(252, 248, 248);
     font-weight: 700;
   }
   i {
     margin-right: 10px;
-    color: red;
+    color: rgb(243, 237, 237);
     font-size: 18px;
   }
 }
@@ -64,7 +64,7 @@
   background: rgba(62, 161, 117, 0.3);
   color: #3ea175;
   .anchor {
-    color: #3ea175 !important;
+    color: #f1f7f4 !important;
   }
 }
 .sidebar-logout {
@@ -72,7 +72,7 @@
   padding: 10px;
   .anchor {
     // text-decoration: none;
-    color: black;
+    color: rgb(250, 246, 246);
     font-weight: 700;
     // text-transform: uppercase;
   }

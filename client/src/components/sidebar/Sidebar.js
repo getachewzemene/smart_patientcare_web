@@ -1,4 +1,6 @@
 import React from "react";
+import { HashLink } from "react-router-hash-link";
+
 import "./Sidebar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useCallback } from "react";
@@ -18,7 +20,12 @@ import { Nav } from "react-bootstrap";
 import EventBus from "../../common/event_bus";
 import { logout } from "../../slices/auth_slice";
 
-const Sidebar = ({ sidebarOpen, closeSidebar, handleShowModal }) => {
+const Sidebar = ({
+  sidebarOpen,
+  closeSidebar,
+  handleShowDoctorModal,
+  handleShowDiseaseModal,
+}) => {
   const dispatch = useDispatch();
   const logOut = useCallback(() => {
     dispatch(logout());
@@ -47,25 +54,25 @@ const Sidebar = ({ sidebarOpen, closeSidebar, handleShowModal }) => {
           <FontAwesomeIcon icon={faBars} onClick={() => closeSidebar()} />
         </i>
       </div>
-      <h6 className="mb-2">Amazing technology. Graceful care</h6>
+      <h6 className="mb-2 text-white">Amazing technology. Graceful care</h6>
       <div className="sidebar-menu">
         <div className="sidebar-link active-menu-link">
           <i>
             <FontAwesomeIcon icon={faHome} />
           </i>
-          <NavLink to="#">Dashboard</NavLink>
+          <NavLink to="# text-white">Dashboard</NavLink>
         </div>
-        <h2>Contents</h2>
+        <h2 className="text-white h1">Contents</h2>
         <div className="sidebar-link">
-          <i>
-            <FontAwesomeIcon icon={faUserDoctor} />
-          </i>
-          <NavLink className="anchor" to="/admin/doctor">
-            Doctor Management
-          </NavLink>
+          <Nav.Link className="anchor m-0 p-0" onClick={handleShowDoctorModal}>
+            <i className="fa-1x">
+              <FontAwesomeIcon icon={faUserDoctor} />
+            </i>
+            Add Doctor
+          </Nav.Link>
         </div>
         <div className="sidebar-link">
-          <Nav.Link className="anchor m-0 p-0" onClick={handleShowModal}>
+          <Nav.Link className="anchor m-0 p-0" onClick={handleShowDiseaseModal}>
             <i className="fa-1x">
               <FontAwesomeIcon icon={faDisease} />
             </i>
@@ -76,17 +83,25 @@ const Sidebar = ({ sidebarOpen, closeSidebar, handleShowModal }) => {
           <i>
             <FontAwesomeIcon icon={faUserDoctor} />
           </i>
-          <NavLink className="anchor" to="#">
+          <HashLink
+            smooth
+            to={window.location.pathname + "#allDoctor"}
+            className="text-light"
+          >
             Doctors
-          </NavLink>
+          </HashLink>
         </div>
         <div className="sidebar-link">
           <i>
             <FontAwesomeIcon icon={faUser} />
           </i>
-          <NavLink className="anchor" to="#">
+          <HashLink
+            smooth
+            to={window.location.pathname + "#allPatient"}
+            className="text-light"
+          >
             Patients
-          </NavLink>
+          </HashLink>
         </div>
         <div className="sidebar-link">
           <i>
@@ -104,11 +119,27 @@ const Sidebar = ({ sidebarOpen, closeSidebar, handleShowModal }) => {
             User FeedBack
           </NavLink>
         </div>
-        <div className="sidebar-logout">
+        <div className="sidebar-link">
           <i>
+            <FontAwesomeIcon icon={faUserDoctor} />
+          </i>
+          <HashLink
+            smooth
+            to={window.location.pathname + "#top"}
+            className="text-light"
+          >
+            Top
+          </HashLink>
+        </div>
+        <div className="sidebar-logout">
+          <i className="text-white">
             <FontAwesomeIcon icon={faSignOut} />
           </i>
-          <NavLink className="anchor" to="/admin/login" onClick={logOut}>
+          <NavLink
+            className="anchor text-white"
+            to="/admin/login"
+            onClick={logOut}
+          >
             Logout
           </NavLink>
         </div>

@@ -55,6 +55,45 @@ const getDoctorById = async (id) => {
       return data;
     });
 };
+const getAppointmentByDoctorId = async (id) => {
+  console.log("from axios" + id);
+  return await axios
+    .get(BASE_URL + "/appointment/by-doctorId", {
+      params: { id: id },
+    })
+    .then((response) => {
+      console.log(response.data);
+      const data = response.data;
+      return data;
+    });
+};
+
+const getAllAppointment = async () => {
+  return await axios.get(BASE_URL + "/appointment/all", {}).then((response) => {
+    // console.log(response.data);
+
+    return response.data;
+  });
+};
+const getAllDcotor = async () => {
+  return await axios
+    .get(BASE_URL + "/doctor/all", {
+      params: { role: "doctor" },
+    })
+    .then((response) => {
+      // response.data.map((data) => console.log("from axios" + data.id));
+
+      return response.data;
+    });
+};
+const getAllPatient = async () => {
+  return await axios.get(BASE_URL + "/patient/all").then((response) => {
+    // console.log(response.data);
+
+    return response.data;
+  });
+};
+
 const addPrescription = async (
   id,
   diseaseName,
@@ -85,7 +124,7 @@ const addDisease = async (
   precuation,
   symptoms
 ) => {
-  console.log("from axios", symptoms);
+  // console.log("from axios", symptoms);
   return await axios
     .post(
       BASE_URL + "/admin/add-disease",
@@ -113,11 +152,35 @@ const predictDisease = async (symptoms) => {
       return data;
     });
 };
+
+const updateAppointment = async (data) => {
+  // console.log(accessToken);
+  console.log("from axios" + data);
+  return await axios
+    .put(
+      BASE_URL + "/appointment/update",
+      { data },
+      {
+        headers: {
+          "x-access-token": accessToken,
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      return response.data;
+    });
+};
 export {
   getAllDoctors,
   addDoctor,
   getDoctorById,
   addPrescription,
   addDisease,
+  getAppointmentByDoctorId,
+  updateAppointment,
+  getAllAppointment,
+  getAllDcotor,
+  getAllPatient,
   predictDisease,
 };

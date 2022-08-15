@@ -3,9 +3,18 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class MedicalHistory extends Model {
     static associate(models) {
-      // this.belongsTo(models.Doctor);
-      // this.belongsTo(models.Patient);
-      // this.belongsTo(models.Prescription);
+      this.belongsTo(models.Doctor, {
+        foreignKey: "doctorId",
+        as: "historyDoctor",
+      });
+      this.belongsTo(models.Patient, {
+        foreignKey: "patientId",
+        as: "historyPatient",
+      });
+      this.belongsTo(models.Prescription, {
+        foreignKey: "prescriptionId",
+        as: "historyPrescription",
+      });
     }
   }
   MedicalHistory.init(

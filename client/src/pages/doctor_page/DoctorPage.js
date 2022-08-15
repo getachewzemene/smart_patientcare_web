@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
+import { DoctorCardImage } from "./DoctorProfile";
+import { Link } from "react-router-dom";
+import UpdateApointmentModal from "../../components/modals/UpdateApointmentModal";
+import { AppointmentByDoctor } from "../../components/appointment/Appointment";
 import {
   Offcanvas,
   Button,
@@ -10,10 +14,7 @@ import {
   Row,
   Badge,
   Col,
-  Card,
   Nav,
-  NavLink,
-  Dropdown,
   Pagination,
 } from "react-bootstrap";
 import {
@@ -32,6 +33,14 @@ import AddPrescriptionModal from "../../components/modals/AddPrescriptionModal";
 const DoctorPage = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [showApointmentModal, setShowApointmentModal] = useState(false);
+  const [appointmentData, setAppointmentData] = useState({});
+  const handleShowAppointmentModal = () => {
+    setShowApointmentModal(true);
+  };
+  const handleCloseAppointmentModal = () => {
+    setShowApointmentModal(false);
+  };
   const logOut = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
@@ -58,14 +67,28 @@ const DoctorPage = () => {
   if (!isLoggedIn) return <Navigate to="/login" />;
   return (
     <>
-      <Navbar bg="dark" className="mb-3 doctor-nav">
+      <Navbar
+        style={{ backgroundColor: "#275091" }}
+        className="mb-3 doctor-nav"
+      >
         <i className="fa-2x text-white mx-5">
           <FontAwesomeIcon icon={faBars} onClick={handleShow} />
         </i>
-        <Navbar.Brand href="#">
-          <h1 className="h1 text-green">
+        <Navbar.Brand href="/">
+          <h1 className="h1 text-green ">
             Smart<span className="h2 text-yellow">Patient</span>
             <span className="h3 text-red">Care</span>
+            <FontAwesomeIcon
+              title="logout"
+              icon={faSignOut}
+              onClick={logOut}
+              style={{
+                color: "#fff",
+                position: "absolute",
+                right: "60",
+                top: "20",
+              }}
+            />
           </h1>
         </Navbar.Brand>
         <Navbar.Offcanvas
@@ -91,18 +114,22 @@ const DoctorPage = () => {
               </i>
               Appointments
             </Nav.Link>
-            <Nav.Link href="#" className="h5">
+            <Link
+              to="/doctor/predict-disease"
+              className="h5 mx-3"
+              style={{ textDecoration: "none" }}
+            >
               <i className="fa-1x mx-2">
                 <FontAwesomeIcon icon={faDisease} />
               </i>
               Check Disease
-            </Nav.Link>
-            <NavLink href="#" className="h5" onClick={handleShowModal}>
+            </Link>
+            <Nav.Link href="#" className="h5" onClick={handleShowModal}>
               <i className="fa-1x mx-2">
                 <FontAwesomeIcon icon={faDisease} />
               </i>
               Add Prescription
-            </NavLink>
+            </Nav.Link>
             <Nav.Link href="/login" className="h5 mx-3 mt-5" onClick={logOut}>
               <i className="fa-1x mx-2">
                 <FontAwesomeIcon icon={faSignOut} /> Logout
@@ -114,24 +141,7 @@ const DoctorPage = () => {
       <AddPrescriptionModal show={showModal} handleClose={handleCloseModal} />
       <Row className="mx-2 bg-light text-dark">
         <Col lg={3} md={3} sm={12}>
-          <Card className="bg-light shadow doctor-card">
-            <Card.Img
-              variant="top"
-              className="rounded"
-              height={250}
-              src="/logo512.png"
-            />
-            <Card.Body className="rounded">
-              <Card.Title>Profile</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
-              <Button variant="primary mx-5 doctor-view-btn">
-                View Detail
-              </Button>
-            </Card.Body>
-          </Card>
+          <DoctorCardImage />
         </Col>
         <Col sm={12} lg={9} md={9}>
           <div className="d-flex justify-content-between">
@@ -150,180 +160,10 @@ const DoctorPage = () => {
               </Button>
             </Form>
           </div>
-          <Table striped responsive hover bordered border={1}>
-            <thead>
-              <tr>
-                <th>NO</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Emial</th>
-                <th>Phone</th>
-                <th colSpan={3}>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Abebe</td>
-                <td>Tesema</td>
-                <td>abtesema@gmail.com</td>
-                <td>0934433221</td>
-                <Nav variant="pills" className="nav1">
-                  <Nav.Item>
-                    <Nav.Link href="#">
-                      <Badge bg="primary">View</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link href="#" eventKey="key2">
-                      <Badge bg="success">Update</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link href="#" eventKey="key3">
-                      <Badge bg="danger">Delete</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                </Nav>
-                <Dropdown className="status-dropdown">
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    Select
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="text-center">
-                    <Dropdown.Item href="#">
-                      <Badge bg="primary">View</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      <Badge bg="success">update</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      <Badge bg="danger">delete</Badge>
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Abebe</td>
-                <td>Tesema</td>
-                <td>abtesema@gmail.com</td>
-                <td>0934433221</td>
-                <Nav variant="pills" className="nav1">
-                  <Nav.Item>
-                    <Nav.Link href="#">
-                      <Badge bg="primary">View</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link href="#" eventKey="key2">
-                      <Badge bg="success">Update</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link href="#" eventKey="key3">
-                      <Badge bg="danger">Delete</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                </Nav>
-                <Dropdown className="status-dropdown">
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    Select
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="text-center">
-                    <Dropdown.Item href="#">
-                      <Badge bg="primary">View</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      <Badge bg="success">update</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      <Badge bg="danger">delete</Badge>
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Abebe</td>
-                <td>Tesema</td>
-                <td>abtesema@gmail.com</td>
-                <td>0934433221</td>
-                <Nav variant="pills" className="nav1">
-                  <Nav.Item>
-                    <Nav.Link href="#">
-                      <Badge bg="primary">View</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link href="#" eventKey="key2">
-                      <Badge bg="success">Update</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link href="#" eventKey="key3">
-                      <Badge bg="danger">Delete</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                </Nav>
-                <Dropdown className="status-dropdown">
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    Select
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="text-center">
-                    <Dropdown.Item href="#">
-                      <Badge bg="primary">View</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      <Badge bg="success">update</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      <Badge bg="danger">delete</Badge>
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>Abebe</td>
-                <td>Tesema</td>
-                <td>abtesema@gmail.com</td>
-                <td>0934433221</td>
-                <Nav variant="pills" className="nav1">
-                  <Nav.Item>
-                    <Nav.Link href="#">
-                      <Badge bg="primary">View</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link href="#" eventKey="key2">
-                      <Badge bg="success">Update</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link href="#" eventKey="key3">
-                      <Badge bg="danger">Delete</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                </Nav>
-                <Dropdown className="status-dropdown">
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    Select
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="text-center">
-                    <Dropdown.Item href="#">
-                      <Badge bg="primary">View</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      <Badge bg="success">update</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      <Badge bg="danger">delete</Badge>
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </tr>
-            </tbody>
-          </Table>
+          <AppointmentByDoctor
+            setAppointmentData={setAppointmentData}
+            handleShowAppointmentModal={handleShowAppointmentModal}
+          />
           <Pagination size="md">
             <Pagination.First />
             <Pagination.Prev />
@@ -339,6 +179,7 @@ const DoctorPage = () => {
           </Pagination>
         </Col>
       </Row>
+      <Row className="mx-2 bg-light text-dark"></Row>
       <Row className="mt-3 mx-2">
         <Col>
           <div className="d-flex justify-content-between">
@@ -385,6 +226,12 @@ const DoctorPage = () => {
           </Table>
         </Col>
       </Row>
+
+      <UpdateApointmentModal
+        show={showApointmentModal}
+        appointmentData={appointmentData}
+        handleClose={handleCloseAppointmentModal}
+      />
     </>
   );
 };

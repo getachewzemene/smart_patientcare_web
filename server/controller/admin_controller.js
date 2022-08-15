@@ -75,18 +75,18 @@ const addDoctor = async (req, res) => {
         DOB: DOB,
         address: address,
         role: "doctor",
-        doctor: {
+        userDoctor: {
           id: id,
           imagePath: req.file.path,
           specialization: specialization,
         },
       },
       {
-        include: [{ model: db.Doctor, as: "doctor" }],
+        include: [{ model: db.Doctor, as: "userDoctor" }],
       }
     );
     res.status(200).send({
-      message: "Doctor table Created Success",
+      message: "Doctor data added Success",
       data: doctorModel,
     });
   } catch (error) {

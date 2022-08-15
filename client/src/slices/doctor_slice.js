@@ -100,7 +100,6 @@ export const getDoctorData = createAsyncThunk(
   async ({ id }, thunkAPI) => {
     try {
       const doctorData = await getDoctorById(id);
-      console.log(doctorData);
       thunkAPI.dispatch(setDoctorData(doctorData));
     } catch (error) {
       // console.log(error.response.data);
@@ -118,7 +117,7 @@ export const getPridictedDisease = createAsyncThunk(
       // console.log("from redux thunk", symptomValue);
       const responseData = await predictDisease(symptomValue);
       // console.log(responseData);
-      return { predictedDisease: responseData };
+      thunkAPI.dispatch(setPrediction(responseData));
     } catch (error) {
       // console.log(error.response.data);
       const message = error.response.data;
@@ -132,9 +131,10 @@ export const getPridictedDisease = createAsyncThunk(
 const initialState = {
   isLoading: false,
   doctorById: null,
-  diseaseName: "",
+  diseaseData: null,
   hasError: false,
 };
+
 const doctorSlice = createSlice({
   name: "doctor",
   initialState,
@@ -142,6 +142,10 @@ const doctorSlice = createSlice({
     setDoctorData: (state, action) => {
       // console.log(action.payload);
       return { doctorById: action.payload };
+    },
+    setPrediction: (state, action) => {
+      // console.log(action.payload);
+      return { diseaseData: action.payload };
     },
   },
   extraReducers: {
@@ -199,7 +203,6 @@ const doctorSlice = createSlice({
     },
     [getPridictedDisease.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.diseaseName = action.payload;
       state.hasError = false;
     },
     [getPridictedDisease.rejected]: (state, action) => {
@@ -209,5 +212,5 @@ const doctorSlice = createSlice({
   },
 });
 const { reducer, actions } = doctorSlice;
-export const { setDoctorData } = actions;
+export const { setDoctorData, setPrediction } = actions;
 export default reducer;

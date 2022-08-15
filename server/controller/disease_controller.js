@@ -4,10 +4,10 @@ const getAllDisease = async (req, res) => {
     const diseaseArray = await db.Disease.findAll({
       include: { model: db.Symptom, as: "symptom" },
     });
-    res.status(200).send({
-      message: "All Disase Information",
-      data: diseaseArray,
-    });
+    if (!diseaseArray) {
+      res.status(404).send("disease data not found");
+    }
+    res.status(200).send(diseaseArray);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

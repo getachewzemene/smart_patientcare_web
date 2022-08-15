@@ -1,5 +1,13 @@
-import React, { useEffect } from "react";
-import { Button, Modal, Form, InputGroup } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Modal,
+  Form,
+  InputGroup,
+  Toast,
+  Spinner,
+  ToastContainer,
+} from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -15,9 +23,9 @@ const schema = Yup.object().shape({
   password: Yup.string().required(),
   phone: Yup.string().required(),
   gender: Yup.string().required(),
-  DOB: Yup.date().default(() => {
-    return new Date();
-  }),
+  DOB: Yup.date()
+    .max(new Date(Date.now() - 567648000000), "age must be at least 18 years")
+    .required("Required"),
   address: Yup.string().required(),
   specialization: Yup.string().required(),
   file: Yup.mixed()
@@ -36,6 +44,8 @@ const schema = Yup.object().shape({
 });
 const AddDoctorModal = ({ show, handleClose }) => {
   const { message } = useSelector((state) => state.message);
+  const [addDoctorToastMessage, setAddDoctorToast] = useState("...");
+  const [showDoctorToast, setShowDoctorToast] = useState(false);
   const { isLoading } = useSelector((state) => state.doctor);
   const { hasError } = useSelector((state) => state.doctor);
   const dispatch = useDispatch();
@@ -74,7 +84,10 @@ const AddDoctorModal = ({ show, handleClose }) => {
     )
       .unwrap()
       .then((response) => {
-        console.log(response);
+        setAddDoctorToast("doctor data add success");
+        setShowDoctorToast(true);
+        // handleClose();
+        // console.log("from add doctor modal" + response);
       })
       .catch(() => {});
   };
@@ -88,6 +101,23 @@ const AddDoctorModal = ({ show, handleClose }) => {
         onHide={handleClose}
       >
         <Modal.Header closeButton>
+          <ToastContainer position="top-end">
+            <Toast
+              bg="success"
+              onClose={() => setShowDoctorToast(false)}
+              show={showDoctorToast}
+              delay={5000}
+              autohide
+            >
+              <Toast.Header>
+                <strong className="me-auto">Message</strong>
+                <small>NOW</small>
+              </Toast.Header>
+              <Toast.Body className="text-white">
+                {addDoctorToastMessage}
+              </Toast.Body>
+            </Toast>
+          </ToastContainer>
           <Modal.Title>Add Doctor</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -285,15 +315,11 @@ const AddDoctorModal = ({ show, handleClose }) => {
                   <Button
                     type="submit"
                     className="btn btn-primary btn-block"
-                    onClick={() => {
-                      if (!hasError) {
-                        handleClose();
-                      }
-                    }}
                     disabled={isLoading}
                   >
                     {isLoading && (
-                      <span className="spinner-border spinner-border-sm"></span>
+                      <Spinner>waiting...</Spinner>
+                      // <span className="spinner-border spinner-border-sm"></span>
                     )}
                     Submit
                   </Button>
@@ -302,7 +328,10 @@ const AddDoctorModal = ({ show, handleClose }) => {
                     as="input"
                     type="reset"
                     value="Reset"
-                    onClick={resetForm}
+                    onClick={() => {
+                      resetForm();
+                      dispatch(clearMessage());
+                    }}
                   />
                 </Form.Group>
               </Form>

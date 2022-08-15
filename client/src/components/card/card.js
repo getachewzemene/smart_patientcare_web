@@ -6,10 +6,10 @@ const card = (props) => {
       <Card className="customCard shadow-lg">
         <Card.Img
           variant="top"
-          src="../../assets/logo192.png"
+          src={value.image}
           alt="header pic"
-          // width={200}
-          // height={200}
+          width={200}
+          height={200}
         />
         <Card.Body>
           <Card.Title>{value.name}</Card.Title>

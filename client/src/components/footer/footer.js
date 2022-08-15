@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import "./footer.scss";
 const CustomFooter = () => {
   return (
-    <Row className="bg-secondary text-white footer m-auto">
+    <Row className=" text-white custom-footer m-auto">
       <Col xs={12} md={2}>
         <h3>Services</h3>
         <ul>
