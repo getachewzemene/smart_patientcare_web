@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MultiSelect } from "react-multi-select-component";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Row,
@@ -16,6 +17,7 @@ import { getPridictedDisease } from "../../slices/doctor_slice";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PredictDisease = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(clearMessage());
@@ -44,7 +46,11 @@ const PredictDisease = () => {
   return (
     <>
       <Navbar style={{ backgroundColor: "#275091" }} className="mb-3">
-        <Navbar.Brand href="/">
+        <Navbar.Brand
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
           <h1 className="h1 text-green mx-3">
             Smart<span className="h2 text-yellow">Patient</span>
             <span className="h3 text-red">Care</span>

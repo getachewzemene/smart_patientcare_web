@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Form, Card, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./login.scss";
@@ -13,12 +13,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { login } from "../../slices/auth_slice";
 import { clearMessage } from "../../slices/message_slice";
+import ForgetPasswordModal from "../../components/modals/ForgetPasswordModal";
+
 const Login = (props) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
+  const [showForgetPasswordModal, setShowForgetPasswordModal] = useState(false);
+  const handleShowForgetPasswordModal = () => {
+    setShowForgetPasswordModal(true);
+  };
+  const handleCloseForgetPasswordModal = () => {
+    setShowForgetPasswordModal(false);
+  };
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(clearMessage());
@@ -50,7 +60,9 @@ const Login = (props) => {
   };
   if (isLoggedIn) {
     if (currentUser.role === "admin") return <Navigate to="/admin/dashboard" />;
-    if (currentUser.role === "doctor") return <Navigate to="/doctor" />;
+    if (currentUser.role === "doctor") {
+      return navigate("/doctor");
+    }
     // return <Navigate to="/" />;
   }
   return (
@@ -116,15 +128,16 @@ const Login = (props) => {
                     {errors.password}
                   </Form.Control.Feedback>
                 </InputGroup>
-                <Form.Group className="my-3" controlId="formBasicCheckbox">
-                  <Form.Check type="checkbox" label="Remember me" />
-                </Form.Group>
-                <p className="px-3">
-                  have no account yet ?{""}
-                  <Button href="/signup" variant="link">
-                    Register
+                <Form.Group className="my-3 row">
+                  <Button
+                    onClick={handleShowForgetPasswordModal}
+                    className="mx-5"
+                    variant="link"
+                  >
+                    Forget password
                   </Button>
-                </p>
+                </Form.Group>
+                {/* <p className="px-5"></p> */}
                 <Form.Group className="px-5 pb-4">
                   <Button
                     type="submit"
@@ -157,6 +170,10 @@ const Login = (props) => {
         </Card.Body>
       </Card>
       <CustomFooter />
+      <ForgetPasswordModal
+        show={showForgetPasswordModal}
+        handleClose={handleCloseForgetPasswordModal}
+      />
     </>
   );
 };

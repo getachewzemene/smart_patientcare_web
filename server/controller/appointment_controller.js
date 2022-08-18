@@ -1,4 +1,3 @@
-const e = require("express");
 const db = require("../models");
 
 const createAppointemnt = async (req, res) => {
@@ -26,13 +25,22 @@ const getAllAppointment = async (req, res) => {
   try {
     const allAppointment = await db.Appointment.findAll({
       include: [
-        { model: db.Doctor, as: "doctorAppointment" },
-        { model: db.Patient, as: "patientAppointment" },
+        {
+          model: db.Doctor,
+          as: "appointmentDoctor",
+          include: [{ model: db.User, as: "doctorUser" }],
+        },
+        {
+          model: db.Patient,
+          as: "appointmentPatient",
+          include: [{ model: db.User, as: "patientUser" }],
+        },
       ],
     });
     res.status(200).send(allAppointment);
   } catch (error) {
-    res.status(400).send(error);
+    console.log(error);
+    res.status(400).send(JSON.stringify(error));
   }
 };
 const getAppointmentByPatientId = async (req, res) => {
@@ -89,7 +97,7 @@ const updateAppointment = async (req, res) => {
       },
       { where: { id: id } }
     );
-    console.log(updateAppointment);
+    // console.log(updateAppointment);
     if (!updateAppointment) {
       res.status(404).send("unable to update record");
     } else {

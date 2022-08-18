@@ -7,6 +7,7 @@
 }
 .offcanvas-start {
   width: 300px;
+  color: white;
 }
 .doctor-card {
   border-radius: 30px;
@@ -14,14 +15,14 @@
   margin-right: 10px;
   margin-bottom: 30px;
 }
-@media only screen and (max-width: 1095px) {
-  .nav1 {
-    display: none;
-  }
-}
+// @media only screen and (max-width: 1095px) {
+//   .nav1 {
+//     display: none;
+//   }
+// }
 
-@media only screen and(min-width:1096px) {
-  .status-dropdown {
-    display: none;
-  }
-}
+// @media only screen and(min-width:1096px) {
+//   .status-dropdown {
+//     display: none;
+//   }
+// }

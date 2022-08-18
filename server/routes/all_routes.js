@@ -7,6 +7,8 @@ const predictDiseaseRoute = require("./predict_disease_route");
 const appointmentRoute = require("./appointment_route");
 const diseaseRoute = require("./disease_route");
 const rtcTokenGeneratorRoute = require("./rtc_token_genartor_route");
+const smsRoute = require("./sms_route");
+const forgetPasswordRoute = require("./forget_password_route");
 const allRoute = (app) => {
   app.use("/images", express.static("./images"));
   app.use("/admin", adminRoute);
@@ -17,6 +19,8 @@ const allRoute = (app) => {
   app.use(predictDiseaseRoute);
   app.use("/appointment", appointmentRoute);
   app.use(rtcTokenGeneratorRoute);
+  app.use(smsRoute);
+  app.use(forgetPasswordRoute);
 };
 
 module.exports = allRoute;

@@ -8,7 +8,7 @@ const getDoctorById = async (req, res) => {
       where: { id: id },
       include: { model: db.Doctor, as: "userDoctor" },
     });
-    console.log("doctor", doctorData);
+    // console.log("doctor", doctorData);
     if (!doctorData) {
       res.status(404).send("doctor not found in this ID");
     } else {
@@ -21,7 +21,7 @@ const getDoctorById = async (req, res) => {
           phone: doctorData.phone,
           address: doctorData.address,
           specialization: doctorData.userDoctor.specialization,
-          imageURL: "http://localhost:4000/" + doctorData.userDoctor.imagePath,
+          imageURL: doctorData.userDoctor.imagePath,
         })
       );
     }
@@ -47,7 +47,7 @@ const getAllDoctors = async (req, res) => {
       where: { role: role },
       include: { model: db.Doctor, as: "userDoctor" },
     });
-    console.log(doctorData);
+    // console.log(doctorData);
     if (!doctorData) {
       res.status(404).send("doctor not found");
     }
@@ -57,18 +57,8 @@ const getAllDoctors = async (req, res) => {
     res.status(400).send(error);
   }
 };
-const addPrescription = async (req, res) => {
-  // const { id, diseaseName, medicineName, description, dosage,doctorId } = req.body;
-  console.log(req.body);
-  try {
-    res.status(200).send("prescription added success");
-  } catch (error) {
-    res.status(400).send(error);
-  }
-};
 
 module.exports = {
   getDoctorById,
   getAllDoctors,
-  addPrescription,
 };

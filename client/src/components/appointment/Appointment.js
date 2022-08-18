@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { getAppointmentData } from "../../slices/doctor_appointment_slice";
-import { Spinner, Table, Dropdown, Badge, Nav } from "react-bootstrap";
-const AppointmentByDoctor = ({
-  handleShowAppointmentModal,
-  setAppointmentData,
-}) => {
+import { Spinner, Table, Badge, Nav } from "react-bootstrap";
+import { getAllAppointment } from "../../services/user_service";
+import Pagination from "../pagination/Pagination";
+import { AllAppointmentRecord } from "../table_record/AllApointmentRecord";
+const AppointmentByDoctor = ({ setTotalAppointment }) => {
+  const navigate = useNavigate();
   const { appointmentByDoctorId, isLoading, hasError } = useSelector(
     (state) => state.appointment
   );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(3);
   var incrementer = 1;
   const { user } = useSelector((state) => state.auth);
   var id = user.id;
@@ -17,6 +21,15 @@ const AppointmentByDoctor = ({
     dispatch(getAppointmentData({ id }));
   }, [dispatch, id]);
   if (appointmentByDoctorId != null) {
+    setTotalAppointment(appointmentByDoctorId.length);
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecords = appointmentByDoctorId.slice(
+      indexOfFirstRecord,
+      indexOfLastRecord
+    );
+    const nPages = Math.ceil(appointmentByDoctorId.length / recordsPerPage);
+
     return (
       <>
         <Table striped responsive hover bordered border={1}>
@@ -27,12 +40,12 @@ const AppointmentByDoctor = ({
               <th className="p">Last Name</th>
               <th className="p">Emial</th>
               <th className="p">Phone</th>
-              <th className="p">appointment status</th>
-              <th colSpan={3}>Status</th>
+              <th className="p">status</th>
+              <th colSpan={3}>Action</th>
             </tr>
           </thead>
           <tbody>
-            {appointmentByDoctorId.map((appointment) => (
+            {currentRecords.map((appointment) => (
               <tr>
                 <td>{incrementer++}</td>
                 <td>{appointment.appointmentPatient.patientUser.firstName}</td>
@@ -42,52 +55,26 @@ const AppointmentByDoctor = ({
                 <td>{appointment.status}</td>
                 <Nav variant="pills" className="nav1">
                   <Nav.Item>
-                    <Nav.Link href="#">
-                      <Badge bg="primary px-1">View</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
                     <Nav.Link
                       onClick={() => {
-                        setAppointmentData(appointment);
-                        handleShowAppointmentModal();
+                        navigate("/doctor/appointment/" + appointment.id, {
+                          state: { appointment },
+                        });
                       }}
-                      eventKey="key2"
                     >
-                      <Badge bg="success px-1 ">Update</Badge>
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link href="#" eventKey="key3">
-                      <Badge bg="danger px-1">Delete</Badge>
+                      <Badge bg="primary px-4 py-2">View</Badge>
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>
-                <Dropdown className="status-dropdown">
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    Select
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="text-center">
-                    <Dropdown.Item href="#">
-                      <Badge bg="primary">View</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => {
-                        setAppointmentData(appointment);
-                        handleShowAppointmentModal();
-                      }}
-                    >
-                      <Badge bg="success">update</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      <Badge bg="danger">delete</Badge>
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
               </tr>
             ))}
           </tbody>
         </Table>
+        <Pagination
+          nPages={nPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </>
     );
   }
@@ -98,5 +85,35 @@ const AppointmentByDoctor = ({
     return <h5 className="text-danger">Error while fetching data</h5>;
   }
 };
-const AllAppointment = () => {};
-export { AppointmentByDoctor, AllAppointment };
+const AllAppointmentWrapper = ({ setTotalAppointment }) => {
+  const [appointmentData, setAllAppointmentData] = useState([]);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getAllAppointment().then((response) => {
+      setAllAppointmentData(response);
+    });
+  }, [dispatch]);
+  setTotalAppointment(appointmentData.length);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(3);
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = appointmentData.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
+  const nPages = Math.ceil(appointmentData.length / recordsPerPage);
+
+  return (
+    <div className="mx-2">
+      <AllAppointmentRecord data={currentRecords} />
+      <Pagination
+        nPages={nPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+    </div>
+  );
+};
+export { AppointmentByDoctor, AllAppointmentWrapper };

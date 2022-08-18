@@ -5,3 +5,16 @@
 .custom-carousel {
   max-height: 300px;
 }
+.mapouter {
+  position: relative;
+  text-align: right;
+  margin-left: 30px;
+  height: 500px;
+  width: 80%;
+}
+.gmap_canvas {
+  overflow: hidden;
+  background: none !important;
+  height: 500px;
+  width: 80%;
+}

@@ -15,6 +15,7 @@ import DoctorPage from "./pages/doctor_page/DoctorPage";
 import { AdminPrivateRoutes, DoctorPrivateRoutes } from "./utils/PrivateRoutes";
 import DoctorProfile from "./pages/doctor_page/DoctorProfile";
 import PredictDisease from "./pages/predict_disease/PredictDisease";
+import AppointmentDetail from "./pages/doctor_page/AppointmentDetail";
 
 const App = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -37,7 +38,11 @@ const App = () => {
         </Route>
         <Route element={<DoctorPrivateRoutes userInfo={userInfo} />}>
           <Route path="/doctor" element={<DoctorPage />} />
-          <Route path="/doctor/profile" element={<DoctorProfile />} />
+          <Route path="/doctor/profile/:id" element={<DoctorProfile />} />
+          <Route
+            path="/doctor/appointment/:userId"
+            element={<AppointmentDetail />}
+          />
           <Route path="/doctor/predict-disease" element={<PredictDisease />} />
         </Route>
         <Route path="/signup" element={<Signup />} />

@@ -17,12 +17,14 @@ import {
 import AddDoctorModal from "../modals/AddDoctorModal";
 import { AllDoctorPaginationWrapper } from "../../components/pagination/AllDoctorPaginationWrapper";
 import { AllPatientPaginationWrapper } from "../pagination/AllPatientPaginationWrapper";
+import { AllAppointmentWrapper } from "../appointment/Appointment";
 const Main = ({ doctorData }) => {
   const [show, setShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
 
   const [patientData, setAllPatientData] = useState([]);
+  const [totalAppointment, setTotalAppointment] = useState(0);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -90,8 +92,14 @@ const Main = ({ doctorData }) => {
               <FontAwesomeIcon icon={faUser} />
             </i>
             <div className="card-inner">
-              <p className="text-primary mx-2"> Total Appointments</p>
-              <span className="font-bold text-title">300</span>
+              <p className="text-primary"> Total Appointments</p>
+              <span
+                className="font-bold text-title"
+                style={{ paddingLeft: "10px", marginLeft: "10px" }}
+              >
+                {totalAppointment}
+              </span>
+              ;
             </div>
           </div>
           <div className="custom-card">
@@ -108,7 +116,7 @@ const Main = ({ doctorData }) => {
           <div className="charts-left my-4">
             <div className="charts-left-title">
               <div>
-                <h1>Daily Reports</h1>
+                <h1>Monthly Reports</h1>
                 <p>Bahir Dar,Amhara,Ethiopia</p>
               </div>
               <i>
@@ -172,6 +180,11 @@ const Main = ({ doctorData }) => {
             Patients <Badge bg="primary">Top</Badge>
           </h2>
           <AllPatientPaginationWrapper patientData={patientData} />
+
+          <h2 className="pt-5 pb-2">
+            Appointments <Badge bg="primary">Top</Badge>
+          </h2>
+          <AllAppointmentWrapper setTotalAppointment={setTotalAppointment} />
         </div>
       </div>
     </main>

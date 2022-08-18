@@ -25,6 +25,7 @@ const Sidebar = ({
   closeSidebar,
   handleShowDoctorModal,
   handleShowDiseaseModal,
+  handleShowScheduleModal,
 }) => {
   const dispatch = useDispatch();
   const logOut = useCallback(() => {
@@ -79,6 +80,17 @@ const Sidebar = ({
             Add Disease
           </Nav.Link>
         </div>
+        {/* <div className="sidebar-link">
+          <Nav.Link
+            className="anchor m-0 p-0"
+            onClick={handleShowScheduleModal}
+          >
+            <i className="fa-1x">
+              <FontAwesomeIcon icon={faDisease} />
+            </i>
+            Add Schedule
+          </Nav.Link>
+        </div> */}
         <div className="sidebar-link">
           <i>
             <FontAwesomeIcon icon={faUserDoctor} />
@@ -107,9 +119,13 @@ const Sidebar = ({
           <i>
             <FontAwesomeIcon icon={faDatabase} />
           </i>
-          <NavLink className="anchor" to="#">
+          <HashLink
+            smooth
+            to={window.location.pathname + "#allAppointment"}
+            className="text-light"
+          >
             Appointments
-          </NavLink>
+          </HashLink>
         </div>
         <div className="sidebar-link">
           <i>

@@ -21,6 +21,7 @@
     "express": "^4.17.3",
     "gpu.js": "^2.15.2",
     "helmet": "^5.1.0",
+    "install": "^0.13.0",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.5-lts.1",
@@ -33,7 +34,8 @@
     "seedrandom": "^2.4.3",
     "sequelize": "^6.21.0",
     "sequelize-cli": "^6.4.1",
-    "socket.io": "^4.5.1"
+    "socket.io": "^4.5.1",
+    "twilio": "^3.80.1"
   },
   "devDependencies": {}
 }

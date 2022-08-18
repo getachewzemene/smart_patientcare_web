@@ -4,6 +4,7 @@ import Main from "../../components/admin_main/Main";
 import AdminNavbar from "../../components/admin_navbar/AdminNavbar";
 import AddDiseaseModal from "../../components/modals/AddDiseaseModal";
 import AddDoctorModal from "../../components/modals/AddDoctorModal";
+// import AddScheduleModal from "../../components/modals/AddScheduleModal";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { getAllDcotor } from "../../services/user_service";
 import "./admin_page.scss";
@@ -26,6 +27,7 @@ const AdminPage = () => {
   };
   const [showDoctorModal, setShowDoctorModal] = useState(false);
   const [showDiseaseModal, setShowDiseaseModal] = useState(false);
+  // const [showScheduleModal, setShowScheduleModal] = useState(false);
 
   const handleShowDoctorModal = () => {
     setSidebarOpen(false);
@@ -42,7 +44,13 @@ const AdminPage = () => {
   const handleCloseDiseaseModal = () => {
     setShowDiseaseModal(false);
   };
-
+  // const handleShowScheduleModal = () => {
+  //   setSidebarOpen(false);
+  //   setShowScheduleModal(true);
+  // };
+  // const handleCloseScheduleModal = () => {
+  //   setShowScheduleModal(false);
+  // };
   return (
     <div className="admin-container">
       <AdminNavbar sidebarOpen={sidebarOpen} openSidebar={openSidebar} />
@@ -62,6 +70,10 @@ const AdminPage = () => {
         show={showDoctorModal}
         handleClose={handleCloseDoctorModal}
       />
+      {/* <AddScheduleModal
+        show={showScheduleModal}
+        handleClose={handleCloseScheduleModal}
+      /> */}
     </div>
   );
 };

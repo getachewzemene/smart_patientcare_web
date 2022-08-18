@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controller/appointment_controller");
-router.post("/add", controller.createAppointemnt);
-router.get("/by-doctorId", controller.getAppointmentByDoctorId);
-router.get("/by-patientId", controller.getAppointmentByPatientId);
-router.get("/all", controller.getAllAppointment);
-router.put("/update", controller.updateAppointment);
+const appointmentController = require("../controller/appointment_controller");
+router.post("/add", appointmentController.createAppointemnt);
+router.get("/by-doctorId", appointmentController.getAppointmentByDoctorId);
+router.get("/by-patientId", appointmentController.getAppointmentByPatientId);
+router.get("/all", appointmentController.getAllAppointment);
+router.put("/update", appointmentController.updateAppointment);
 module.exports = router;

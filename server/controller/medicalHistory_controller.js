@@ -34,6 +34,7 @@ const getMedicalHistoryByPatientId = async (req, res) => {
   try {
     const patientMedicalHistory = await db.MedicalHistory.findOne({
       where: { patientId: patientId },
+      order: [["updatedAt", "DESC"]],
       include: [
         { model: db.Doctor, as: "doctorMedicalHistory" },
         { model: db.Patient, as: "patientMedicalHistory" },

@@ -2,7 +2,7 @@ import axios from "axios";
 import user from "./auth_header";
 import { BASE_URL } from "./api_endpoint";
 const accessToken = user.accessToken;
-const doctorId = user.id;
+// const doctorId = user.id;
 const getAllDoctors = () => {
   return axios.get(BASE_URL + "all");
 };
@@ -31,7 +31,7 @@ const addDoctor = async (
   data.append("address", address);
   data.append("specialization", specialization);
   data.append("file", file);
-  console.log(file);
+  // console.log(file);
 
   // console.log(accessToken);
   return await axios
@@ -51,27 +51,25 @@ const getDoctorById = async (id) => {
       params: { id: id },
     })
     .then((response) => {
-      const data = response.data;
-      return data;
+      return response.data;
     });
 };
 const getAppointmentByDoctorId = async (id) => {
-  console.log("from axios" + id);
+  // console.log("from axios" + id);
   return await axios
     .get(BASE_URL + "/appointment/by-doctorId", {
       params: { id: id },
     })
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       const data = response.data;
       return data;
     });
 };
 
 const getAllAppointment = async () => {
-  return await axios.get(BASE_URL + "/appointment/all", {}).then((response) => {
+  return await axios.get(BASE_URL + "/appointment/all").then((response) => {
     // console.log(response.data);
-
     return response.data;
   });
 };
@@ -99,12 +97,28 @@ const addPrescription = async (
   diseaseName,
   medicineName,
   description,
-  dosage
+  dosage,
+  compliant,
+  investigationResult,
+  treatment,
+  doctorId,
+  patientId
 ) => {
   return await axios
     .post(
       BASE_URL + "/doctor/add-prescription",
-      { id, diseaseName, medicineName, description, dosage, doctorId },
+      {
+        id,
+        diseaseName,
+        medicineName,
+        description,
+        dosage,
+        compliant,
+        investigationResult,
+        treatment,
+        doctorId,
+        patientId,
+      },
       {
         headers: {
           "x-access-token": accessToken,
@@ -115,6 +129,18 @@ const addPrescription = async (
     .then((response) => {
       const data = response.data;
       return data;
+    });
+};
+const getPatientMedicalHistory = async (id) => {
+  return await axios
+    .get(BASE_URL + "/doctor/patient-history/by-id", {
+      params: { id: id },
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
     });
 };
 const addDisease = async (
@@ -148,7 +174,7 @@ const predictDisease = async (symptoms) => {
     })
     .then((response) => {
       const data = response.data;
-      console.log(data);
+      // console.log(data);
       return data;
     });
 };
@@ -171,11 +197,48 @@ const updateAppointment = async (data) => {
       return response.data;
     });
 };
+const forgetPasswordApi = async (email) => {
+  return await axios
+    .post(
+      BASE_URL + "/forget-password",
+      {
+        email,
+      },
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      return response;
+    });
+};
+const changePasswordApi = async (oldPassword, newPassword, id) => {
+  return await axios
+    .post(
+      BASE_URL + "/change-password",
+      {
+        oldPassword,
+        newPassword,
+        id,
+      },
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      return response;
+    });
+};
 export {
   getAllDoctors,
   addDoctor,
   getDoctorById,
   addPrescription,
+  getPatientMedicalHistory,
   addDisease,
   getAppointmentByDoctorId,
   updateAppointment,
@@ -183,4 +246,6 @@ export {
   getAllDcotor,
   getAllPatient,
   predictDisease,
+  forgetPasswordApi,
+  changePasswordApi,
 };

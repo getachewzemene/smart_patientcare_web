@@ -84,4 +84,41 @@ const userRegister = async (req, res) => {
     res.status(400).send(error);
   }
 };
-module.exports = { userLogin, userRegister };
+const changePassword = async (req, res) => {
+  const { oldPassword, newPassword, id } = req.body;
+  // console.log(id);
+  try {
+    const user = await db.User.findOne({
+      where: { id: id },
+    });
+
+    if (!user) {
+      res.status(404).send("user not found");
+    } else {
+      // console.log(user);
+      const isPasswordCorrect = bcrypt.compareSync(oldPassword, user.password);
+      if (!isPasswordCorrect) {
+        res.status(403).send("incorrect password try again!");
+      } else {
+        const hashPassword = bcrypt.hashSync(newPassword, 10);
+        const updatePassword = await db.User.update(
+          {
+            password: hashPassword,
+          },
+          { where: { id: id } }
+        );
+
+        if (!updatePassword) {
+          res.status(400).send("failed to update password try again!");
+        } else {
+          // console.log(updatePassword);
+          res.status(200).send("password updated success");
+        }
+      }
+    }
+  } catch (error) {
+    // console.log(error);
+    res.status(400).send("errror occured while changing password");
+  }
+};
+module.exports = { userLogin, userRegister, changePassword };

@@ -6,6 +6,8 @@ import {
   addPrescription,
   addDisease,
   predictDisease,
+  forgetPasswordApi,
+  changePasswordApi,
 } from "../services/user_service";
 
 export const addDoctorData = createAsyncThunk(
@@ -52,14 +54,33 @@ export const addDoctorData = createAsyncThunk(
 );
 export const addPrescriptionData = createAsyncThunk(
   "doctor/add_prescription",
-  async ({ id, diseaseName, medicineName, description, dosage }, thunkAPI) => {
+  async (
+    {
+      id,
+      diseaseName,
+      medicineName,
+      description,
+      dosage,
+      compliant,
+      investigationResult,
+      treatment,
+      doctorId,
+      patientId,
+    },
+    thunkAPI
+  ) => {
     try {
       const data = await addPrescription(
         id,
         diseaseName,
         medicineName,
         description,
-        dosage
+        dosage,
+        compliant,
+        investigationResult,
+        treatment,
+        doctorId,
+        patientId
       );
       return { prescriptionData: data };
     } catch (error) {
@@ -100,7 +121,7 @@ export const getDoctorData = createAsyncThunk(
   async ({ id }, thunkAPI) => {
     try {
       const doctorData = await getDoctorById(id);
-      thunkAPI.dispatch(setDoctorData(doctorData));
+      return doctorData;
     } catch (error) {
       // console.log(error.response.data);
       const message = error.response.data;
@@ -127,7 +148,36 @@ export const getPridictedDisease = createAsyncThunk(
     }
   }
 );
+export const forgetPassword = createAsyncThunk(
+  "doctor/forget_password",
+  async ({ email }, thunkAPI) => {
+    try {
+      const data = await forgetPasswordApi(email);
+      return data;
+    } catch (error) {
+      // console.log(error.response.data);
+      const message = error.response.data;
 
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+export const changePassword = createAsyncThunk(
+  "doctor/change_password",
+  async ({ oldPassword, newPassword, id }, thunkAPI) => {
+    try {
+      const data = await changePasswordApi(oldPassword, newPassword, id);
+      return data;
+    } catch (error) {
+      // console.log(error.response.data);
+      const message = error.response.data;
+
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 const initialState = {
   isLoading: false,
   doctorById: null,
@@ -206,6 +256,30 @@ const doctorSlice = createSlice({
       state.hasError = false;
     },
     [getPridictedDisease.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = true;
+    },
+    [forgetPassword.pending]: (state, action) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    [forgetPassword.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = false;
+    },
+    [forgetPassword.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = true;
+    },
+    [changePassword.pending]: (state, action) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    [changePassword.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.hasError = false;
+    },
+    [changePassword.rejected]: (state, action) => {
       state.isLoading = false;
       state.hasError = true;
     },

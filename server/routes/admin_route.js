@@ -28,7 +28,7 @@ const upload = multer({
 
 const controller = require("../controller/admin_controller");
 const diseaseController = require("../controller/disease_controller");
-router.post("/create", controller.createAdmin);
+// router.post("/create", controller.createAdmin);
 // router.get("/socket-api/get-call-id/:id", controller.getCallId);
 router.post("/add-doctor", upload, controller.addDoctor);
 router.post("/add-disease", controller.addDisease);
