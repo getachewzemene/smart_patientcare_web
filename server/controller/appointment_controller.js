@@ -46,14 +46,43 @@ const getAllAppointment = async (req, res) => {
 const getAppointmentByPatientId = async (req, res) => {
   var id = req.query.id;
   try {
-    const patientAppointment = await db.Appointment.findOne({
+    const patientAppointment = await db.Appointment.findAll({
       where: { patientId: id },
       include: [
-        { model: db.Doctor, as: "doctorAppointment" },
-        { model: db.Patient, as: "patientAppointment" },
+        { model: db.Doctor, as: "appointmentDoctor" },
+        { model: db.Patient, as: "appointmentPatient" },
       ],
     });
     res.status(200).send(patientAppointment);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+const getAppointmentByStatus = async (req, res) => {
+  const { id, status } = req.query;
+
+  try {
+    const patientAppointment = await db.Appointment.findAll({
+      where: { patientId: id, status: status },
+      include: [
+        {
+          model: db.Doctor,
+          as: "appointmentDoctor",
+          include: [{ model: db.User, as: "doctorUser" }],
+        },
+        {
+          model: db.Patient,
+          as: "appointmentPatient",
+          include: [{ model: db.User, as: "patientUser" }],
+        },
+      ],
+    });
+    if (!patientAppointment) {
+      res.status(200).send("appointment not found");
+    } else {
+      res.status(200).send(patientAppointment);
+    }
   } catch (error) {
     res.status(400).send(error);
   }
@@ -114,4 +143,5 @@ module.exports = {
   getAppointmentByPatientId,
   getAppointmentByDoctorId,
   updateAppointment,
+  getAppointmentByStatus,
 };

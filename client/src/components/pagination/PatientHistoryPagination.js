@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import Pagination from "./Pagination";
+
 import { PatientHistoryRecord } from "../table_record/PatientHistoryRecord";
-const PatinetHistoryPaginationWrapper = ({ patientHistory }) => {
+
+const PatinetHistoryPaginationWrapper = ({ historyArray, patientHistory }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(1);
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = patientHistory.slice(
+  const currentRecords = historyArray.slice(
     indexOfFirstRecord,
     indexOfLastRecord
   );
   console.log(patientHistory);
-  const nPages = Math.ceil(patientHistory.length / recordsPerPage);
+  const nPages = Math.ceil(historyArray.length / recordsPerPage);
 
   return (
     <div className="mx-2" style={{ maxHeight: "100%" }}>
-      <PatientHistoryRecord data={currentRecords} />
+      <PatientHistoryRecord
+        data={currentRecords}
+        patientHistory={patientHistory}
+      />
       <Pagination
         nPages={nPages}
         currentPage={currentPage}

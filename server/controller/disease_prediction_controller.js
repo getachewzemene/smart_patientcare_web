@@ -20,6 +20,7 @@ const diseasePredictionController = async (req, res) => {
       // console.log(diseaseClass);
       var diseaseName = decodeDisease(diseaseClass);
       if (diseaseName[0] !== null) {
+        console.log(diseaseName[0]);
         diseaseCallBack(diseaseName[0], res);
       } else {
         res.status(404).send("disease prediction error");
@@ -35,10 +36,9 @@ const diseaseCallBack = async (diseaseName, res) => {
     where: { diseaseName: diseaseName },
     include: [{ model: db.Symptom, as: "symptom" }],
   });
-  console.log(diseaseModel);
-  !diseaseModel
-    ? res.status(200).send(diseaseName)
-    : res.status(200).send(diseaseModel);
+  res
+    .status(200)
+    .send({ predictedDisease: diseaseName, diseaseDetail: diseaseModel });
 };
 
 module.exports = diseasePredictionController;

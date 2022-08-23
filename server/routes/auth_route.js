@@ -6,4 +6,5 @@ router.post("/login", authController.userLogin);
 router.post("/register", authController.userRegister);
 router.post("/admin/login", adminController.login);
 router.post("/change-password", authController.changePassword);
+router.post("/update-password", authController.updatePassword);
 module.exports = router;

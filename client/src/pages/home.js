@@ -13,7 +13,7 @@ const home = () => {
         Consult top doctors online for any health concerns
       </h3>
       <CardList />
-      <h4>Address</h4>
+      <h4 className="mx-5">Address</h4>
       <div className="mapouter">
         <div className="gmap_canvas">
           <iframe
@@ -32,9 +32,9 @@ const home = () => {
           <a href="https://www.embedgooglemap.net">embed map google</a>
         </div>
       </div>
-      <div>Common Health Issues</div>
+      {/* <div>Common Health Issues</div>
       <div>top doctors</div>
-      <div>first aid</div>
+      <div>first aid</div> */}
       <Footer />
     </>
   );

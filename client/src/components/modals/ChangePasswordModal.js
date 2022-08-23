@@ -20,7 +20,7 @@ const schema = Yup.object().shape({
     .max(100, "Too Long")
     .required("old password required"),
   newPassword: Yup.string()
-    .min(2, "Too Short")
+    .min(5, "Too Short")
     .max(100, "Too Long")
     .required("new password required"),
 });

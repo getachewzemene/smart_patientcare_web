@@ -11,8 +11,8 @@ import {
   faUserDoctor,
   faDisease,
   faListNumeric,
-
-  // faUserCheck,
+  faUserCheck,
+  faUserInjured,
 } from "@fortawesome/free-solid-svg-icons";
 import AddDoctorModal from "../modals/AddDoctorModal";
 import { AllDoctorPaginationWrapper } from "../../components/pagination/AllDoctorPaginationWrapper";
@@ -22,7 +22,8 @@ const Main = ({ doctorData }) => {
   const [show, setShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
-
+  const [pendingAppointment, setPendingAppointment] = useState(0);
+  const [acceptedAppointment, setAcceptedAppointment] = useState(0);
   const [patientData, setAllPatientData] = useState([]);
   const [totalAppointment, setTotalAppointment] = useState(0);
 
@@ -31,12 +32,13 @@ const Main = ({ doctorData }) => {
     getAllPatient().then((response) => {
       setAllPatientData(response);
     });
-  }, [dispatch]);
+  }, [dispatch, patientData]);
 
   const handleClose = () => {
     setShowToast(true);
     setShow(false);
   };
+
   // const handleShow = () => {
   //   setShow(true);
   // };
@@ -88,6 +90,15 @@ const Main = ({ doctorData }) => {
             </div>
           </div>
           <div className="custom-card">
+            <i className="fa-2x text-lightblue">
+              <FontAwesomeIcon icon={faUserInjured} />
+            </i>
+            <div className="card-inner">
+              <p className="text-primary mx-2"> Number of Patients</p>
+              <span className="font-bold text-title">{patientData.length}</span>
+            </div>
+          </div>
+          <div className="custom-card">
             <i className="fa-2x text-green">
               <FontAwesomeIcon icon={faUser} />
             </i>
@@ -99,9 +110,37 @@ const Main = ({ doctorData }) => {
               >
                 {totalAppointment}
               </span>
-              ;
             </div>
           </div>
+          <div className="custom-card">
+            <i className="fa-2x text-green">
+              <FontAwesomeIcon icon={faUserCheck} />
+            </i>
+            <div className="card-inner">
+              <p className="text-primary"> Total accepted Appointments</p>
+              <span
+                className="font-bold text-title"
+                style={{ paddingLeft: "10px", marginLeft: "10px" }}
+              >
+                {acceptedAppointment}
+              </span>
+            </div>
+          </div>
+          <div className="custom-card">
+            <i className="fa-2x text-green">
+              <FontAwesomeIcon icon={faUser} />
+            </i>
+            <div className="card-inner">
+              <p className="text-primary"> Total pendnig Appointments</p>
+              <span
+                className="font-bold text-title"
+                style={{ paddingLeft: "10px", marginLeft: "10px" }}
+              >
+                {pendingAppointment}
+              </span>
+            </div>
+          </div>
+
           <div className="custom-card">
             <i className="fa-2x text-yellow">
               <FontAwesomeIcon icon={faDisease} />
@@ -184,7 +223,11 @@ const Main = ({ doctorData }) => {
           <h2 className="pt-5 pb-2">
             Appointments <Badge bg="primary">Top</Badge>
           </h2>
-          <AllAppointmentWrapper setTotalAppointment={setTotalAppointment} />
+          <AllAppointmentWrapper
+            setTotalAppointment={setTotalAppointment}
+            setAcceptedAppointment={setAcceptedAppointment}
+            setPendingAppointment={setPendingAppointment}
+          />
         </div>
       </div>
     </main>

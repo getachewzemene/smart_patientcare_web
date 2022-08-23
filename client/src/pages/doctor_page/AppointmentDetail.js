@@ -16,13 +16,13 @@ import {
   Col,
   Spinner,
 } from "react-bootstrap";
-
+import "./DoctorPage.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import "./DoctorPage.scss";
 import UpdateApointmentModal from "../../components/modals/UpdateApointmentModal";
-import AddPrescriptionFrom from "./AddPrescriptionForm";
 import { PatinetHistoryPaginationWrapper } from "../../components/pagination/PatientHistoryPagination";
 import { getPatientMedicalHistory } from "../../services/user_service";
-
 const schema = Yup.object().shape({
   from: Yup.date().required("Required"),
   to: Yup.date().required("Required"),
@@ -103,23 +103,39 @@ const AppointmentDetail = () => {
       // <h2>{patientHistory.id}</h2>
       <>
         <Navbar
-          style={{ backgroundColor: "#275091" }}
-          className="mb-3 doctor-nav"
-          onClick={() => {
-            navigate(-1);
+          style={{
+            backgroundColor: "#275091",
+            display: "flex row wrap",
+
+            justifyContent: "space-between",
           }}
+          className="mb-3 px-5"
         >
-          <i className="fa-2x text-white mx-5">
-            {/* <FontAwesomeIcon icon={faBars} onClick={handleShow} /> */}
-          </i>
           <Navbar.Brand>
-            <h1 className="h1 text-light ">
-              {"Patient Name:" +
-                appointment.appointmentPatient.patientUser.firstName}
+            <h1
+              className="h1 text-green mx-3"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              Smart<span className="h2 text-yellow">Patient</span>
+              <span className="h3 text-red">Care</span>
             </h1>
           </Navbar.Brand>
-        </Navbar>
 
+          <Nav.Link
+            className="anchor"
+            onClick={() => {
+              var patientId = appointment.appointmentPatient.patientUser.id;
+              navigate("/doctor/prescription/" + patientId, {
+                state: { patientId },
+              });
+            }}
+          >
+            <FontAwesomeIcon icon={faAdd} />
+            Add Prescription
+          </Nav.Link>
+        </Navbar>
         <Tabs
           defaultActiveKey="appointment"
           id="fill-tab-example"
@@ -176,7 +192,7 @@ const AppointmentDetail = () => {
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link href="#" eventKey="key3">
+                    <Nav.Link to="#" eventKey="key3">
                       <Badge bg="danger mx-4 py-2">Delete</Badge>
                     </Nav.Link>
                   </Nav.Item>
@@ -190,13 +206,15 @@ const AppointmentDetail = () => {
                 <Col lg={10}>
                   {!show ? (
                     <PatinetHistoryPaginationWrapper
-                      patientHistory={
+                      historyArray={
                         patientHistory.userPatient.patientPrescription
                       }
+                      patientHistory={patientHistory}
                     />
                   ) : finalFilteredData.length !== 0 ? (
                     <PatinetHistoryPaginationWrapper
-                      patientHistory={finalFilteredData}
+                      historyArray={finalFilteredData}
+                      patientHistory={patientHistory}
                     />
                   ) : (
                     <h4 className="text-center text-danger">Data not found</h4>
@@ -289,15 +307,6 @@ const AppointmentDetail = () => {
                 Patient history not found
               </h3>
             )}
-          </Tab>
-          <Tab
-            eventKey="prescription"
-            title="Prescription"
-            className="d-flex justify-content-center"
-          >
-            <AddPrescriptionFrom
-              patientId={appointment.appointmentPatient.patientUser.id}
-            />
           </Tab>
         </Tabs>
         <UpdateApointmentModal

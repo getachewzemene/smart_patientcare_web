@@ -39,7 +39,7 @@ const PredictDisease = () => {
       .unwrap()
       .then((response) => {
         setIsPrediction(true);
-        // console.log("from dispacher" + response.diseaseName);
+        console.log("from dispacher" + response);
       })
       .catch(() => {});
   };
@@ -84,20 +84,26 @@ const PredictDisease = () => {
               {!isLoading && !hasError && diseaseData !== null && (
                 <>
                   <p className="mx-2 h3 my-4">
-                    Disease Name: {diseaseData.diseaseName}
+                    Disease Name: {diseaseData.predictedDisease}
                   </p>
-                  <p className="mx-2 h3 my-4">
-                    Disease Category: {diseaseData.category}
-                  </p>
-                  <p className="mx-2 h4 my-4">
-                    Treatment: {diseaseData.precuation}
-                  </p>
-                  <p className="mx-2 h4 my-4">Symptoms </p>
-                  {diseaseData.symptom.map((symptom) => (
-                    <li key={symptom.id} className="mx-2 h4 my-4">
-                      {symptom.symptomName}
-                    </li>
-                  ))}
+                  {diseaseData.diseaseDetail !== null ? (
+                    <>
+                      <p className="mx-2 h3 my-4">
+                        Disease Category: {diseaseData.diseaseDetail.category}
+                      </p>
+                      <p className="mx-2 h4 my-4">
+                        Treatment: {diseaseData.diseaseDetail.precuation}
+                      </p>
+                      <p className="mx-2 h4 my-4">Symptoms </p>
+                      {diseaseData.diseaseDetail.symptom.map((symptom) => (
+                        <li key={symptom.id} className="mx-2 h4 my-4">
+                          {symptom.symptomName}
+                        </li>
+                      ))}
+                    </>
+                  ) : (
+                    <h5 className="text-danger">Disease Detail not found</h5>
+                  )}
                 </>
               )}
               {hasError && <p>{message}</p>}

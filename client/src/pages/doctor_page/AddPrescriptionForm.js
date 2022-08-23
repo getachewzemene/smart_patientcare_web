@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
   Form,
@@ -8,6 +9,7 @@ import {
   ToastContainer,
   Card,
   Container,
+  Navbar,
   Row,
   Col,
 } from "react-bootstrap";
@@ -31,8 +33,8 @@ const schema = Yup.object().shape({
     .max(500, "Too Long")
     .required("description name required"),
   dosage: Yup.number()
-    .min(0, "invalid dosage")
-    .max(10, "too max dosage")
+    .min(1, "invalid dosage")
+    .max(20, "too max dosage")
     .required("Dosage required"),
   compliant: Yup.string()
     .min(10, "Too Short")
@@ -48,7 +50,10 @@ const schema = Yup.object().shape({
     .required("treatment name required"),
 });
 
-const AddPrescriptionFrom = ({ patientId }) => {
+const AddPrescriptionFrom = () => {
+  const { state } = useLocation();
+  const { patientId } = state;
+  const navigate = useNavigate();
   const [addPrescriptionToastMessage, setAddDescriptionToast] = useState("...");
   const [showToast, setShowToast] = useState(false);
   const { message } = useSelector((state) => state.message);
@@ -95,7 +100,27 @@ const AddPrescriptionFrom = ({ patientId }) => {
 
   return (
     <>
-      <Container className="w-75 mx-1 my-1">
+      <Navbar
+        style={{
+          backgroundColor: "#275091",
+          display: "flex row wrap",
+
+          justifyContent: "space-between",
+        }}
+        className="mb-3"
+      >
+        <Navbar.Brand
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <h1 className="h1 text-green mx-3">
+            Smart<span className="h2 text-yellow">Patient</span>
+            <span className="h3 text-red">Care</span>
+          </h1>
+        </Navbar.Brand>
+      </Navbar>
+      <Container className="w-75 mx-auto p-0 my-1 center">
         <Card>
           <Card.Header className="text-center p-3">
             Add Prescription
@@ -124,7 +149,7 @@ const AddPrescriptionFrom = ({ patientId }) => {
                 touched,
                 errors,
               }) => (
-                <Form onSubmit={handleSubmit} className="text-black h5">
+                <Form onSubmit={handleSubmit} className="text-black ">
                   <Row>
                     <Col sm={12} lg={6} md={6}>
                       <Form.Label className="mt-3">Disease Name</Form.Label>
@@ -251,6 +276,8 @@ const AddPrescriptionFrom = ({ patientId }) => {
                         <Form.Control
                           type="number"
                           name="dosage"
+                          min="1"
+                          max="20"
                           placeholder="dosage"
                           value={values.dosage}
                           onChange={handleChange}

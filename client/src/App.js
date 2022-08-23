@@ -16,7 +16,7 @@ import { AdminPrivateRoutes, DoctorPrivateRoutes } from "./utils/PrivateRoutes";
 import DoctorProfile from "./pages/doctor_page/DoctorProfile";
 import PredictDisease from "./pages/predict_disease/PredictDisease";
 import AppointmentDetail from "./pages/doctor_page/AppointmentDetail";
-
+import AddPrescriptionForm from "./pages/doctor_page/AddPrescriptionForm";
 const App = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const userInfo = {
@@ -42,6 +42,10 @@ const App = () => {
           <Route
             path="/doctor/appointment/:userId"
             element={<AppointmentDetail />}
+          />
+          <Route
+            path="/doctor/prescription/:patientId"
+            element={<AddPrescriptionForm />}
           />
           <Route path="/doctor/predict-disease" element={<PredictDisease />} />
         </Route>

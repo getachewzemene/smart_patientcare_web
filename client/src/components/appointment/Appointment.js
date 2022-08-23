@@ -85,7 +85,11 @@ const AppointmentByDoctor = ({ setTotalAppointment }) => {
     return <h5 className="text-danger">Error while fetching data</h5>;
   }
 };
-const AllAppointmentWrapper = ({ setTotalAppointment }) => {
+const AllAppointmentWrapper = ({
+  setTotalAppointment,
+  setAcceptedAppointment,
+  setPendingAppointment,
+}) => {
   const [appointmentData, setAllAppointmentData] = useState([]);
 
   const dispatch = useDispatch();
@@ -94,6 +98,20 @@ const AllAppointmentWrapper = ({ setTotalAppointment }) => {
       setAllAppointmentData(response);
     });
   }, [dispatch]);
+  var acceptedAppointment = 0;
+  var pendingAppointment = 0;
+  for (var active = 0; active < appointmentData.length; active++) {
+    if (appointmentData[active].status === "accepted") {
+      acceptedAppointment++;
+    }
+  }
+  for (var pending = 0; pending < appointmentData.length; pending++) {
+    if (appointmentData[pending].status === "pending") {
+      pendingAppointment++;
+    }
+  }
+  setAcceptedAppointment(acceptedAppointment);
+  setPendingAppointment(pendingAppointment);
   setTotalAppointment(appointmentData.length);
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(3);

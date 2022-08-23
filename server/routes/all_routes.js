@@ -9,6 +9,7 @@ const diseaseRoute = require("./disease_route");
 const rtcTokenGeneratorRoute = require("./rtc_token_genartor_route");
 const smsRoute = require("./sms_route");
 const forgetPasswordRoute = require("./forget_password_route");
+const sendMailRoute = require("./send_mail_route");
 const allRoute = (app) => {
   app.use("/images", express.static("./images"));
   app.use("/admin", adminRoute);
@@ -21,6 +22,7 @@ const allRoute = (app) => {
   app.use(rtcTokenGeneratorRoute);
   app.use(smsRoute);
   app.use(forgetPasswordRoute);
+  app.use(sendMailRoute);
 };
 
 module.exports = allRoute;

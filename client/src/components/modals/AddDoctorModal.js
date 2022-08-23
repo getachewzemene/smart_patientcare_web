@@ -17,10 +17,19 @@ import shortid from "shortid";
 
 const SUPPORTEDFORMATs = ["image/jpg", "image/jpeg", "image/png"];
 const schema = Yup.object().shape({
-  firstName: Yup.string().required(),
-  lastName: Yup.string().required(),
+  firstName: Yup.string()
+    .min(3, "Too Short")
+    .max(100, "Too Long")
+    .required("first name required"),
+  lastName: Yup.string()
+    .min(5, "Too Short")
+    .max(100, "Too Long")
+    .required("last name required"),
   email: Yup.string().email().required(),
-  password: Yup.string().required(),
+  password: Yup.string()
+    .min(5, "Too Short")
+    .max(100, "Too Long")
+    .required("new password required"),
   phone: Yup.string().required(),
   gender: Yup.string().required(),
   DOB: Yup.date()
